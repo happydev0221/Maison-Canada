@@ -1,0 +1,152 @@
+<div class="block-banner">
+  <div class="inner">
+    <img src="{{collection.image.src | img_url: '2048x' }}">
+  </div>
+</div>
+<div class="container container-smaller">
+  <div class="block-breadcrumb">
+    <ul id="breadcrumb">
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" title="Go to the home page" itemprop="url"> <span itemprop="title">Home</span> </a>
+      </li>
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <strong itemprop="title">{{collection.title}}</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <main class="container center-content">
+    <div class="page messages">
+      <div data-placeholder="messages"></div>
+    </div>
+    <div class="col-full">
+      <div class="page-title">
+        <h1>{{collection.title}}</h1>
+      </div>
+    </div>
+    
+    <div class="col-left">
+      <div>
+        <div class="block filter block-filters">
+
+          {% assign current_handle = current_tags | handle %}
+          <div class="block-content filter-content">
+            <div class="sidebar inner">
+             <div class="sidebar-wrap">
+               <div class="sidebar-block">
+                 <div id="filters">
+                   <div role="heading" class="filter-subtitle heading"> Filter by </div>
+                 </div>
+               </div>
+               <div class="sidebar-block">
+                <div class="sidebar__collection-filter">
+                  <h4 class="toggle"><strong>Vessel</strong><span>+</span></h4>
+                  <ul class="toggle_list">
+                    {% assign vessel_tags = "Lamps,Diffusers,Candles,Car difusers" | split: "," %}
+                    <div class="filter-all-tags color-filter--false">
+                      {% for tag in vessel_tags %}
+                      <li><a><label data-option-filter=""><input type="checkbox" value="{{tag | handle}}">{{tag}}</label></a></li>
+                      {% endfor %}
+                    </div>
+                    <div class="filter-active-tag color-filter--false">
+                     {% for tag in vessel_tags %}
+                     {% assign st = tag | handle %}
+                     {% if current_handle contains st %}
+                     <li><a class="active"><label data-option-filter=""><input checked="" type="checkbox" value="{{tag | handle}}"> {{tag}}</label></a></li>
+                     <button class="clear-active-filter" data-clear-filter=""> <i class="x-icon"></i>Clear</button>
+                     {% endif %}
+                     {% endfor %}
+                   </div>
+                 </ul>
+               </div>
+             </div>
+             <div class="sidebar-block">
+              <div class="sidebar__collection-filter">
+                <h4 class="toggle"><strong>Fragrance</strong><span>+</span></h4>
+                <ul class="toggle_list">
+                  {% assign fra_tags = "Aroma,Floral,Fresh,Fruity,Functional,Pure,Spicy,Sweet" | split: "," %}
+                  <div class="filter-all-tags color-filter--false">
+                    {% for tag in fra_tags %}
+                    <li><a><label data-option-filter=""><input type="checkbox" value="{{tag | handle }}">{{tag}}</label></a></li>
+                    {% endfor %}
+                  </div>
+                  <div class="filter-active-tag color-filter--false">
+                   {% for tag in fra_tags %}
+                   {% assign nd = tag | handle %}
+                   {% if current_handle contains nd %}
+                   <li><a class="active"><label data-option-filter=""><input checked="" type="checkbox" value="{{tag | handle }}"> {{tag}}</label></a></li>
+                   <button class="clear-active-filter" data-clear-filter=""> <i class="x-icon"></i>Clear</button>
+                   {% endif %}
+                   {% endfor %}
+                 </div>
+               </ul>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+ </div>
+</div>
+{% paginate collection.products by 12 %}  
+<div class="col-right">
+  <div class="collection-matrix">
+
+   {% if collection.products.size == 0 %}
+   <div class="section clearfix">
+    <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+  </div>
+
+  {%else%}   
+
+
+  <ul class="products wrapper grid products-grid category-products filter-sections">
+    {% for product in collection.products %}
+<script type="application/json" class="bold-product-json">{{ product | json }}</script>
+       <li class="product">
+           <div class="inner">
+              {% unless product.available %}
+             <span class="new">
+             {% if product.tags contains 'coming soon' %}
+				Coming Soon
+             {%else%}
+              {{settings.soldout_text}}
+  			{% endif %}
+             </span>
+             {%endunless%}
+            <div class="image">
+              <a href="{{ product.url | within: collection }}">
+                <img src="{{product.featured_image | product_img_url: 'grande' }}">
+              </a>
+            </div>
+            <div class="details">
+             {%if settings.display_vendor_collection%}<div class="tag-wrapper">{{product.vendor}}</div>{%endif%} 
+             <a href="{{ product.url | within: collection }}"> {{product.title}}</a>
+             <div class="prices"><span class="price"><span class="money" data-product-id="{{ product.id }}">{{ product.price_min | money }}</span></span></div>
+           </div>
+           {%if product.available%}
+           <form method="post" action="/cart/add" class="product_form">
+            <input type="hidden" name="form_type" value="product">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" name="add" class="add_to_cart action primary tocart add-to-cart" data-label='Add to Cart'><span class="text">Add to cart</span></button>
+
+          </form>
+           {%endif%}
+        </div>
+      </li>
+  {%endfor%}
+
+</ul>
+
+{%endif%}
+
+</div>
+<div class="load-more__icon"></div>
+</div>
+{% include 'pagination' %}
+
+{%endpaginate%}
+</main>

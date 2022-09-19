@@ -1,0 +1,495 @@
+<div class="container main content main-wrapper">
+  <div class="sixteen columns page clearfix">
+    <div class="quiz_container">
+      <img  class="img_quiz" src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/bg_quiz.png?17113">
+        <div class="quiz_banner" data-fancybox href="#hidden-content">
+          
+          <img src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/MB_DARKBLUE-GREY_LOGO.png?16535">
+ 			<div class="quiz_divider"></div>
+          
+          <h1 class="quiz_title">FRAGRANCE</h1>
+          <h1 class="quiz_title">FINDER</h1>
+          
+          <div class="quiz_divider"></div>
+          <div class="quiz_desc">
+            
+            <p>Pick the perfect scent for</p>
+            <p>for you (or someone else!)</p>
+            <p>by taking this quick quiz.</p>
+            <h3>START! <span><i class="fa fa-play"></i></span></h3>
+          </div>
+      		
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div style="display: none;" id="hidden-content">
+    <div class="quiz_builder">
+        <div class="quiz_modal">
+          <img class="logo-quiz" src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/MB_DARKBLUE-GREY_LOGO.png?16535">
+            <div id="productfinder">
+                <div id="productfinderpreview">
+              <div id="question_content">
+ 
+        		</div>
+                </div>
+            </div>
+
+        </div>
+      {%raw%}
+      <script type="text/x-handlebars-template" id="select_one">
+        <div class="question">
+            <div class="productfinder-question-title">{{questionText}}</div>
+            <div class="options {{#if img_selector}}has_thumb{{/if}}">
+                {{#each answers}}
+                    <button type="button" class="{{#if imageUrl}}img-list{{/if}} certona-pf-input-container select-one {{#if imageUrl}}has-img{{/if}}" {{#if collection}}data-filter-url="{{collection}}"{{/if}} data-filter-text="{{filtertag}}" data-main-question="{{../questionId}}" data-question-next="{{nextQuestionId}}" data-answer-id="{{answerId}}" id="q{{../questionId}}_a{{answerId}}">
+                        {{#if imageUrl}}<img class="productfinder-answer-image" src="{{imageUrl}}" border="0" />{{/if}}
+                        {{#unless imageUrl}}<label class="productfinder-answer-text">{{answerText}}</label>{{/unless}}
+                    </button>
+                {{/each}}
+            </div>
+            <div class="continueContainer">
+                <button class="insight-submit-btn" disabled>Next</button>
+            </div>
+            <div class="backContainer">
+                <button class="insight-submit-btn" id="back" {{#unless showBackButton}}disabled{{/unless}}>Back</button>
+            </div>
+        </div>
+    </script>
+      {%endraw%}
+
+    </div>
+</div>
+
+<script>
+    var quiz_json='{{'quiz.js'| asset_url}}';
+    
+    var current_q = [];  
+  	var question_all = [];    
+    var apolo = {    
+    
+    ajaxquiz : function(){
+    	var response =  $.ajax({
+				url: window.quiz_json
+			});
+        return response;	
+    
+    },
+      
+      getquestion : function(q,mq,n,f){
+        
+        var getone = this.ajaxquiz();
+        
+         getone.done(function(data){
+       var result = JSON.parse(data);
+       apolo.getnext(result,q,mq,n,f);
+        
+      });
+      },
+      
+      backbtn: function(){
+        
+      //  console.log(current_q);
+        
+       var last = current_q[current_q.length - 1];        
+       current_q.pop();
+        
+         var getone = this.ajaxquiz();
+         getone.done(function(data){
+       var result = JSON.parse(data);
+           var t = result[0];
+        	var indexOfFirst = question_all.indexOf(last.question);
+              var bg_demo =  t.productFinder.questions[indexOfFirst].imageUrl;
+          	var theTemplateScript = $("#select_one").html();
+          	var theTemplate = Handlebars.compile(theTemplateScript);
+            var compile = t.productFinder.questions[indexOfFirst];
+        	compile.showBackButton=true;
+           if(current_q.length === 0){
+           	compile.showBackButton=false;
+           }   
+  			var theCompiledHtml = theTemplate(compile);
+          $('#question_content').html(theCompiledHtml);
+              $('.quiz_modal').css("background-image", "url('"+bg_demo+"')");  
+          $('#q'+last.question+'_a'+last.answer+'').addClass('selected');
+
+      });
+
+      },
+      
+      getnext: function(json,id,mq,n,f){
+        
+        var t = json[0];
+
+        	var indexOfFirst = question_all.indexOf(id);
+          	var theTemplateScript = $("#select_one").html();
+          	var theTemplate = Handlebars.compile(theTemplateScript);
+            var compile = t.productFinder.questions[indexOfFirst];
+                var bg_demo =  t.productFinder.questions[indexOfFirst].imageUrl;
+
+        
+        		current_q.push({
+                    question: mq,
+                    answer: n,
+                    tag:f
+                  	
+                });
+        	compile.showBackButton=true;
+  			var theCompiledHtml = theTemplate(compile);
+          
+          $('#question_content').html(theCompiledHtml);
+  
+         $('.quiz_modal').css("background-image", "url('"+bg_demo+"')");     	
+      },
+    
+    getfirst : function(){
+      
+      var getone = this.ajaxquiz();
+      getone.done(function(data){
+        
+       var result = JSON.parse(data);
+       apolo.unique(result);
+        
+      });
+    
+    },
+  
+    unique: function(e){
+      var t = e[0];
+      
+       for (var o = 0; o < t.productFinder.questions.length; o++) {
+        question_all.push(t.productFinder.questions[o].questionId);
+        }
+
+          	var theTemplateScript = $("#select_one").html();
+          	var theTemplate = Handlebars.compile(theTemplateScript);
+            var compile = t.productFinder.questions[0];
+  			var theCompiledHtml = theTemplate(compile);
+      		var bg_demo =  t.productFinder.questions[0].imageUrl;
+      
+      
+      //console.log(current_q);
+          
+          $('#question_content').html(theCompiledHtml);
+
+      	  $('.quiz_modal').css("background-image", "url('"+bg_demo+"')");
+                
+    }
+  };
+
+     $(document).ready(function() {
+       
+       var currentTags = '';
+
+        apolo.getfirst();
+       
+               $('body').on('click', '.select-one', function(){
+                    var t = this,
+                        n = parseInt(t.getAttribute("data-answer-id")),
+                        mq = parseInt(t.getAttribute("data-main-question")),
+                 		nq = parseInt(t.getAttribute("data-question-next")),
+                 		filter = t.getAttribute("data-filter-text");
+                 		filter = filter.toLowerCase().replace(/ /g,'-'); 
+               
+                 
+                 if(nq != -1) {
+
+                 	apolo.getquestion(nq,mq,n,filter);
+                 }
+                 
+                 else{
+                   
+                     $.each(current_q, function(i, value){
+                       
+                       if(value['tag'] != ""){
+                      var name = value['tag'].toLowerCase().replace(/ /g,'-'); 
+                      currentTags += name + '+';
+                       }
+    });
+                 	window.location.href= "/collections/"+t.getAttribute("data-filter-url")+"/"+currentTags+filter;
+                 }
+                 
+                });
+       
+          		 $('body').on('click', '#back', function(){
+                    var t = this;
+                   apolo.backbtn();
+                });
+   });
+
+</script>
+
+<style>
+  
+  #question_content .has_thumb {
+  
+  	width:50% !important;
+  }
+  
+  #question_content .img-list{
+    
+    background-color:transparent !important;
+    box-shadow:none !important;
+    width: calc(33% - 16px) !important;
+  
+  }
+  #question_content img{
+    
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    max-width:100px;
+  
+  }
+  
+  .quiz_desc h3{
+  
+        margin: 15px 0 0 0;
+    font-weight: bold;
+  }
+  
+  .quiz_desc p{
+  
+  	margin:0;
+    font-size:20px;
+  }
+  .quiz_title{
+     line-height: 1.2;
+    padding: 0;
+    margin: 0px;
+    font-size: 36px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  
+  .quiz_divider {
+    border: solid 3px;
+    border-bottom: 0;
+    display: block;
+    width: 220px;
+    margin: 15px auto;
+    border-color: #fff;
+}
+  .quiz_banner{
+    position: absolute;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+    background: #F4BB6C;
+    padding: 30px 60px;
+    cursor: pointer;  
+  }
+  
+  .quiz_banner img{
+  max-width:160px;
+  }
+  
+
+  .logo-quiz{
+  	display:block;
+    margin-left:auto;
+    margin-right:auto;
+    max-width: 110px;
+    padding:20px 0;
+  }
+  
+  .quiz_heading{
+  display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    border-bottom-width: 1px;
+    padding: 10px 15px 10px 15px;
+    border-color: rgb(238, 238, 238);
+    margin: 0;
+  }
+   #question_content .backContainer, #question_content .continueContainer {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    
+}
+  
+ #question_content .continueContainer {
+    font-weight: 700;
+    z-index: 2;
+   text-align:right;
+}
+  
+  
+  
+  .backContainer button, .continueContainer button {
+  	height:35px;
+    background:transparent;
+    color:#000;
+    font-weight:bold;
+  }
+  
+#question_content .backContainer {
+    z-index: 1;
+    left: 0px;
+    background-color: rgb(255, 255, 255,0.6);
+    /*box-shadow: rgba(0, 0, 0, 0.1) 0px -2px 8px 0px;*/
+  	text-align:left;
+}
+  
+  
+  #question_content .productfinder-answer-text {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1.25;
+    height: 60px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+  
+    #question_content .certona-pf-input-container:active,#question_content .certona-pf-input-container:hover,#question_content .certona-pf-input-container.selected {
+       background: #F4BB6C;
+}
+  
+   #question_content .certona-pf-input-container:first-child:nth-last-child(n+5), #question_content .certona-pf-input-container:first-child:nth-last-child(n+5) ~ * {
+    float: left;
+}
+  
+  #question_content .certona-pf-input-container {
+    box-sizing: border-box;
+    display: inline-block;
+    width: calc(50% - 7px);
+    cursor: pointer;
+    font-size: 16px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 4px 0px;
+    margin: 3px;
+    padding: 0;
+    border:0;
+    border-radius: 0;
+    outline: 0px;
+    color: black;
+    text-transform: inherit;
+}
+  
+  #question_content .options {
+    max-width: 70%;
+    overflow: hidden;
+    margin: -8px auto;
+}
+  
+  .productfinder-question-title {
+    font-size: 20px;
+    margin-bottom: 32px;
+    font-weight: 700;
+    color: #fff;
+    width:60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+  #progress_inner{
+  
+  	background-color: rgb(0, 0, 0);
+    height: 4px;
+    width: 0px;
+    border-radius: 4px;
+    transition: width 0.3s ease 0s;
+  }
+  
+  #progress_outer{
+  background-color: rgb(204, 204, 204);
+    width: 334px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -16px;
+    margin-bottom: 32px;
+    border-radius: 4px;
+  }
+  
+  #productfinder{
+  	overflow-y: auto;
+    overflow-x: hidden;
+    display: block;
+    text-align: center;
+    line-height: 1.25;
+    height: calc(100% - 137px);
+    box-sizing: border-box;
+  }
+  .quiz_builder{
+      display: flex;
+    flex-direction: column;
+    position: relative;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    outline: 0px;
+  }
+  .quiz_container{
+  text-align:center;
+    position:relative;
+  }
+
+    
+    .quiz_modal {
+    display: block;
+    height: 552px;
+    position: relative;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-color:#F4BB6C
+}
+
+  
+  .quiz_container .img_quiz{
+      cursor: pointer;
+        max-height: 600px;
+  
+  } 
+  
+  .close-quiz{
+      position: absolute;
+    top: -10px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 8040;
+    font-size: 35px !important;
+    color: #081f2c;
+    margin: 7px 0 7px 0;
+    display: inline-block;
+  }
+  
+  
+    @media screen and (max-width: 959px) {
+      
+         #question_content .options {
+    max-width: 85%;
+    margin: 0 auto;
+}
+      .quiz_container{
+      position:static;
+      }
+      .quiz_container .img_quiz{
+      display:none;
+      }
+     .quiz_desc p{
+
+    font-size:16px;
+  }
+      .quiz_banner {
+    position: static;
+            transform: none;
+            padding: 60px 0;
+
+      }
+      .productfinder-question-title {
+      width:100%;
+      }
+      #question_content .has_thumb{
+      width:100% !important;
+      }
+}
+</style>

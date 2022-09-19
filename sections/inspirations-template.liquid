@@ -1,0 +1,254 @@
+<div class="container main content main-wrapper">
+  <div class="sixteen columns page clearfix">
+<div class="block-content-html ">
+    <div class="container paris-bg">
+        <div class="inner">
+          <h1 class="center">{{section.settings.title_main}}</h1>
+              <div class="feature_divider"></div>
+        </div>
+    </div>
+</div>
+    
+ {% if section.settings.instagram_client_id != blank %}   
+<div class="block-inspirations social-feeds-wrap" id="">
+    <div class="container  paris-bg">
+        <div class="inner"> <span class="block-title">{{section.settings.main_head}} </span> <span class="block-subtitle"> {{section.settings.main_subhead}}  </span>
+            <div id="instafeed" class="patchwork js-instafeed" data-client-id="{{ section.settings.instagram_client_id | strip }}" data-count="{{section.settings.instagram_count }}"></div>
+
+          <a href="{{section.settings.btn_link}}" class="btn">{{section.settings.btn_text}}</a></div>
+    </div>
+</div>
+
+{%endif%}  
+<div class="block-content-html ">
+    <div class="container paris-bg">
+        <div class="inner">
+          <h1 class="center">{{section.settings.content_text}}</h1>
+              <div class="feature_divider"></div>
+        </div>
+    </div>
+</div>
+    
+ <div class="block-feature style-primary" >
+	<div class="container paris-bg">
+		<div class="inner text-position-bottom ">
+			<div class="contents"> <span class="sub-block-title">{{section.settings.banner_head}}</span> 
+				<span class="block-title">{{section.settings.banner_sub}}</span>
+				<div class="description">
+					{{section.settings.banner_desc}}
+				</div>
+				<div class="buttons"> <a href="{{section.settings.banner_link}}" class="btn ">{{section.settings.banner_btn}}</a></div>
+			</div>
+			<div class="image" style="background-image: url('{{section.settings.banner_desktop | img_url:'master'}}')">
+				<img src="{{section.settings.banner_desktop | img_url:'master'}}" width="600" height="420">
+			</div>
+		</div>
+	</div>
+</div>   
+    
+    
+    
+    {%for block in section.blocks%}
+      <div class="block-feature style-primary">
+    <div class="container paris-bg">
+        <div class="inner {{block.settings.grid_position}}">
+            <div class="contents"> <span class="sub-block-title">{{block.settings.grid_sub}}</span> <span class="block-title">{{block.settings.grid_head}}</span>
+                <div class="description">
+                  
+                  {{block.settings.grid_desc}}
+                  
+                </div>
+                <div class="buttons"> <a href="{{block.settings.grid_link}} " class="btn "> {{block.settings.grid_btn}} </a></div>
+            </div>
+            <div class="image" style="background-image: url('{{block.settings.grid_image | img_url:'master'}}')"> 
+            	<img src="{{block.settings.grid_image | img_url:'master'}}" width="600" height="420"></div>
+        </div>
+    </div>
+</div>
+
+    {%endfor%}
+    
+   
+    
+    {%include 'paris-suscribe'%}
+    
+    {%comment%}
+    <div class="block-brand style-white " id="">
+    <div style="background-image: url(https://www.maison-berger.fr/medias/fr/wp-content/uploads/image-brand-home.jpg)"> <img src="https://www.maison-berger.fr/medias/fr/wp-content/uploads/image-brand-home.jpg" width="975" height="542" title="Maison Berger Paris" alt="Maison Berger Paris">
+        <svg class="icon year bottom-left" width="240" height="240">
+            <use xlink:href="#ico-year"></use>
+        </svg>
+    </div>
+    <div class="inner">
+        <div class="contents bottom-right"> <span class="block-title"> Maison Berger Paris </span>
+            <p class="block-subtitle"> 120 ans d'histoire et d'innovation au service de vos sens et de votre bien-être</p>
+            <div class="buttons"> <a href="/histoire.html" class="btn btn-white "> Entrez dans la légende </a></div>
+        </div>
+    </div>
+	</div>
+    {%endcomment%}
+    
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Inspirations Page",
+    "settings": [
+	{
+      "type": "text",
+	  "id": "title_main",
+	  "label": "Heading"
+    },
+	{
+      "type": "header",
+	  "content": "Instagram"
+    },
+	{
+      "type": "text",
+      "id": "main_head",
+      "label": "Heading"
+    },
+	{
+      "type": "text",
+      "id": "main_subhead",
+      "label": "Name"
+    },
+
+	{
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text"
+    },
+    {
+          "type": "text",
+          "id": "instagram_client_id",
+          "label": "Instagram Access Token ([?](http:\/\/outofthesandbox.com\/pages\/instagram-access-token))"
+    },
+    {
+          "type": "range",
+          "id": "instagram_count",
+          "label": "Number of images",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 11
+    },
+	{
+      "type": "url",
+      "id": "btn_link",
+      "label": "Link"
+    },
+	{
+      "type": "header",
+	  "content": "Content"
+    },
+    {
+            "type": "image_picker",
+            "id": "banner_desktop",
+            "label": "Image",
+            "info": "800 x 800px recommended"
+    },
+   	{
+          "type": "text",
+          "id": "content_text",
+          "label": "Heading",
+		  "default": "COLLECTIONS IN THE FIRST"
+    },
+ 	{
+          "type": "text",
+          "id": "banner_head",
+          "label": "Banner Heading",
+		  "default": "LOLITA LEMPICKA COLLECTION"
+    },
+	{
+          "type": "text",
+          "id": "banner_sub",
+          "label": "Banner Subheading",
+		  "default": "Absolutely magical"
+    },
+	{
+          "type": "richtext",
+          "id": "banner_desc",
+          "label": "Description"
+    },
+	{
+          "type": "text",
+          "id": "banner_btn",
+          "label": "Button",
+		  "default": "I absolutely test"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    }
+
+
+],
+
+   "blocks": [
+      {
+        "type": "grid",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "grid_image",
+            "label": "Image",
+            "info": "800 x 800px recommended"
+          },
+          {
+            "type": "text",
+            "id": "grid_head",
+            "label": "Heading"
+          },
+  		  {
+            "type": "text",
+            "id": "grid_sub",
+            "label": "Subheading"
+          },
+ 			{
+            "type": "richtext",
+            "id": "grid_desc",
+            "label": "Description"
+          },
+		  {
+            "type": "text",
+            "id": "grid_btn",
+            "label": "Button"
+          },
+  		  {
+            "type": "url",
+            "id": "grid_link",
+            "label": "Link"
+          },
+    {
+      "type": "select",
+      "id": "grid_position",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "text-position-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-position-right",
+          "label": "Right"
+        }
+      ],
+      "default": "text-position-right"
+    }
+			
+			
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

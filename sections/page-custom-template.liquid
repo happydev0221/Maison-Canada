@@ -1,0 +1,357 @@
+<div class="block-home style-white" style="background-image: url('{{section.settings.img_main | img_url:'master'}}')" id="">
+  <div class="container paris-bg"> <img src="{{section.settings.img_main | img_url:'master'}}" class="visible-mobile">
+    <div class="inner right ">
+      <div class="contents right circle">
+        <div class="bg" style="background-color: #081f2c"></div> <span class="block-title">{{section.settings.title_main}}</span>
+        {{section.settings.desc_main}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="block-content-html " id="">
+  <div class="container container-smaller">
+    <div class="inner"> <span class="block-title no-margin"> {{section.settings.content_text}} </span> <span class="block-subtitle"> {{section.settings.sub_text}} </span>
+      <div class="contents"> {{section.settings.full_text}} </div>
+    </div>
+  </div>
+</div>
+
+<div class="block-feature style-primary " >
+  <div class="container container-smaller">
+    <div class="inner text-position-left " style="background-color: ">
+      <div class="contents"> <span class="sub-block-title">{{section.settings.banner_sub}}</span> 
+        <span class="block-title">{{section.settings.banner_head}}</span>
+        <div class="description">
+          {{section.settings.banner_full}}
+        </div>
+      </div>
+      <div class="image" style="background-image: url('{{section.settings.banner_img | img_url:'master'}}')">
+        <img src="{{section.settings.banner_img | img_url:'master'}}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="block-content-html " id="">
+  <div class="container container-smaller">
+    <div class="inner"> <span class="block-title no-margin"> {{section.settings.banner2_head}} </span> <span class="block-subtitle"> {{section.settings.banner2_sub}}</span>
+      <div class="contents"></div>
+    </div>
+  </div>
+</div>
+
+<div class="block-banner " id="">
+  <div class="container container-smaller">
+    <div class="inner"> <img src="{{section.settings.banner2_img | img_url:'master'}}"></div>
+  </div>
+</div>
+
+<div class="block-content-html " id="">
+  <div class="container container-smaller">
+    <div class="inner"> <span class="block-title no-margin">{{section.settings.step_head}}</span> <span class="block-subtitle">{{section.settings.step_sub}}</span>
+      <div class="contents"></div>
+    </div>
+  </div>
+</div>
+
+<div class="block-content-html" >
+  <div class="container container-smaller">
+   {%for block in section.blocks%}
+   <div class="one-fifth column">
+    <div class="inner"> <img src="{{block.settings.grid_image | img_url:'280x'}}"> <span class="block-title "></span>
+      <div class="contents">{{block.settings.grid_content}}</div>
+    </div>
+  </div>
+  {%endfor%}
+  
+</div>
+</div>
+<div class="block-content-html" id="">
+  <div class="container container-smaller">
+    <div class="inner"> <span class="block-title no-margin"> </span> <span class="block-subtitle">{{section.settings.info_head}} </span>
+      <div class="contents">
+        {{section.settings.info_sub}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="block-content-html " id="">
+  <div class="container container-smaller">
+    <div class="inner"> <span class="block-title "> {{section.settings.video_title}} </span>
+      <div class="contents"></div>
+    </div>
+  </div>
+</div>
+
+<div class="block-ritual " id="">
+  <div class="container container-smaller">
+    <div class="inner">
+      <div class="contents"> <span class="sub-block-title"> {{section.settings.video_sub}} </span> <span class="block-title">{{section.settings.video_head}} </span>
+        <div class="description"> 
+          {{section.settings.video_full}} 
+        </div>
+        
+      </div>
+      <div class="media">
+        <div>
+          <iframe width="525" height="295" src="https://www.youtube.com/embed/{{ section.settings.video_url.id }}?start=1&amp;feature=oembed&amp;rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+          <svg viewBox="0 0 830 467"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="block-feature style-primary " id="">
+  <div class="container container-smaller">
+    <div class="inner text-position-left " style="background-color: ">
+      <div class="contents"> <span class="sub-block-title"> </span> <span class="block-title">{{section.settings.banner3_head}}</span>
+        <div class="description">
+          {{section.settings.banner3_full}}
+        </div>
+      </div>
+      <div class="image" style="background-image: url('{{section.settings.banner3_img | img_url:'master'}}')">
+        <img src="{{section.settings.banner3_img | img_url:'master'}}"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="container paris-bg"> 
+   <div class="sixteen columns page clearfix ">
+     
+    
+    {%include 'paris-suscribe'%}
+    
+
+   {%comment%}
+    <div class="block-brand style-white " id="">
+    <div style="background-image: url(https://www.maison-berger.fr/medias/fr/wp-content/uploads/image-brand-home.jpg)"> <img src="https://www.maison-berger.fr/medias/fr/wp-content/uploads/image-brand-home.jpg" width="975" height="542" title="Maison Berger Paris" alt="Maison Berger Paris">
+        <svg class="icon year bottom-left" width="240" height="240">
+            <use xlink:href="#ico-year"></use>
+        </svg>
+    </div>
+    <div class="inner">
+        <div class="contents bottom-right"> <span class="block-title"> Maison Berger Paris </span>
+            <p class="block-subtitle"> 120 ans d'histoire et d'innovation au service de vos sens et de votre bien-être</p>
+            <div class="buttons"> <a href="/histoire.html" class="btn btn-white "> Entrez dans la légende </a></div>
+        </div>
+    </div>
+  </div>
+  {%endcomment%}
+</div>
+
+
+</div>
+{% schema %}
+  {
+    "name": "Custom Page 1",
+	"max_blocks":5,
+    "settings": [
+	{
+      "type": "text",
+	  "id": "title_main",
+	  "label": "Heading",
+	  "default":  "Une lampe qui révolutionne l’intérieur"
+    },
+	{
+      "type": "richtext",
+	  "id": "desc_main",
+	  "label": "Description",
+	  "default":  "<p>Sous ses apparences parfois complexes, la lampe Berger est simple à manipuler. Suivez le guide pour comprendre son fonctionnement !</p>"
+    },
+	{
+      "type": "image_picker",
+	  "id": "img_main",
+	  "label": "Background"
+    },
+	{
+      "type": "header",
+	  "content": "Content"
+    },
+   	{
+          "type": "text",
+          "id": "content_text",
+          "label": "Heading",
+		  "default": "Comment utiliser sa lampe Berger ?"
+    },
+ 	{
+          "type": "text",
+          "id": "sub_text",
+          "label": "Sub Heading",
+		  "default": "Subheading"
+    },
+	{
+          "type": "richtext",
+          "id": "full_text",
+          "label": "Info",
+      	  "default": "<p>Full description</p>"
+    },
+	{
+      "type": "header",
+	  "content": "Banner"
+    },
+ 	{
+          "type": "text",
+          "id": "banner_head",
+          "label": "Heading",
+		  "default": "Heading"
+    },
+ 	{
+          "type": "text",
+          "id": "banner_sub",
+          "label": "Sub Heading",
+		  "default": "Subheading"
+    },
+	{
+          "type": "richtext",
+          "id": "banner_full",
+          "label": "Info",
+      	  "default": "<p>Full description</p>"
+    },
+	{
+      "type": "image_picker",
+	  "id": "banner_img",
+	  "label": "Image"
+    },
+	{
+      "type": "header",
+	  "content": "Banner 2"
+    },
+ 	{
+          "type": "text",
+          "id": "banner2_head",
+          "label": "Heading",
+		  "default": "Heading"
+    },
+ 	{
+          "type": "text",
+          "id": "banner2_sub",
+          "label": "Sub Heading",
+		  "default": "Subheading"
+    },
+	{
+      "type": "image_picker",
+	  "id": "banner2_img",
+	  "label": "Image"
+    },
+	{
+      "type": "header",
+	  "content": "Steps",
+	  "info": "Add a block"
+    },
+	{
+          "type": "text",
+          "id": "step_head",
+          "label": "Heading",
+		  "default": "Heading"
+    },
+ 	{
+          "type": "text",
+          "id": "step_sub",
+          "label": "Sub Heading",
+		  "default": "Subheading"
+    },
+	{
+      "type": "header",
+	  "content": "Info"
+    },
+	{
+          "type": "text",
+          "id": "info_head",
+          "label": "Heading",
+		  "default": "Heading"
+    },
+ 	{
+          "type": "richtext",
+          "id": "info_sub",
+          "label": "Content"
+    },
+	{
+      "type": "header",
+	  "content": "Video"
+    },
+	{
+          "type": "text",
+          "id": "video_title",
+          "label": "Title",
+		  "default": "Title"
+    },
+ 	{
+          "type": "richtext",
+          "id": "video_head",
+          "label": "Heading"
+    },
+
+	{
+          "type": "richtext",
+          "id": "video_sub",
+          "label": "Subheading"
+    },
+	{
+          "type": "richtext",
+          "id": "video_full",
+          "label": "Content"
+    },
+    {
+       "id": "video_url",
+       "type": "video_url",
+       "label": "Video URL",
+       "accept": ["youtube"],
+       "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+    },
+	{
+      "type": "header",
+	  "content": "Banner 3"
+    },
+  	{
+          "type": "text",
+          "id": "banner3_head",
+          "label": "Heading",
+		  "default": "Heading"
+    },
+ 	{
+          "type": "richtext",
+          "id": "banner3_full",
+          "label": "Content"
+    },
+	{
+      "type": "image_picker",
+	  "id": "banner3_img",
+	  "label": "Image"
+    }
+  	
+
+
+	],
+  "blocks": [
+      {
+        "type": "grid",
+        "name": "Step",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "grid_image",
+            "label": "Image",
+            "info": "280x280 px recommended"
+          },
+          {
+            "type": "richtext",
+            "id": "grid_content",
+            "label": "Content"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

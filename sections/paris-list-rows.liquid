@@ -1,0 +1,74 @@
+<div class="block-gesture " id="">
+  <span class="block-title text-uppercase">{{section.settings.main_head}}</span>
+    <div class="inner">
+      {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        <div class="gesture category-item">
+            <div class="image">
+                <a href="{{block.settings.banner_link}}"> <img src="{{block.settings.banner_img | img_url: 'master'}}"> </a>
+            </div>
+            <div class="details">
+                <a href="{{block.settings.banner_link}}" class="title"> <strong>{{block.settings.banner_head}}</strong> </a>
+                <a href="{{block.settings.banner_link}}"> <span></span></a><a href="/recharges-parfum.html">{{block.settings.banner_subhead}}</a> </div>
+        </div>
+      {%endfor%}
+      
+      {%endif%}
+    </div>
+</div>
+
+{% schema %}
+   {
+    "name": "Row List",
+  "max_blocks": 4,
+    "settings": [
+	{
+      "type": "text",
+      "id": "main_head",
+      "label": "Heading"
+    }
+],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+      {
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Image"
+    },
+	{
+      "type": "text",
+      "id": "banner_head",
+      "label": "Heading"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_subhead",
+      "label": "Subheading"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    }
+      ]
+    }
+  ],
+
+ "presets": [{
+    "name": "Row List",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,192 @@
+{%if collection.image.src != blank%}
+
+<div class="block-banner">
+    <div class="inner"> 
+      <img src="{{collection.image.src  | img_url: '2048x'}}">
+ </div>
+</div>
+
+{%endif%}
+
+<div class="container container-smaller">
+    <div class="block-breadcrumb">
+        <ul id="breadcrumb">
+            <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                <a href="/" title="Go to the home page" itemprop="url"> <span itemprop="title">Home</span> </a>
+            </li>
+            <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+              <strong itemprop="title">Fragrance {{collection.title}}</strong></li>
+        </ul>
+    </div>
+</div>
+
+
+<main class="container center-content">
+    <a id="contentarea" tabindex="-1"></a>
+    <div class="page messages">
+        <div data-placeholder="messages"></div>
+    </div>
+    <div class="col-full">
+        <div class="page-title " id="">
+            <h1>{{section.settings.main_head}}<span>{{section.settings.main_subhead}}</span></h1>
+      </div>
+    </div>
+    <div class="col-full">
+
+          
+      <ul class="products wrapper grid products-grid category-products">
+      {% if section.blocks.size > 0 %}
+      {%assign count = 0%}
+      {% for block in section.blocks %}
+            
+            {%assign count = count | plus: 1 %}
+            {% assign collect = collections[block.settings.collection]%}
+            
+            
+            
+            {% if collect.title != blank %}
+            
+             <li class="product-perfume blogBox moreBox" {%if count > 12%}style="display:none"{%endif%}>
+                    <a href="{{collect.url}}"> 
+                      <img src="{{ collect.image.src | img_url: '260x260', crop:'center' }}" title="{{collect.title}}" alt="{{collect.title}}">
+                      <span class="block-title" style="background-color:{{section.settings.main_color}}">
+                         {{collect.title}}
+                      </span>
+               </a>
+             </li>
+            {%endif%}
+ 
+      {%endfor%}
+      
+      {%endif%}
+          </ul>
+    </div>
+  
+  {% if count > 12%}
+  <div class="col-full"><p><button class="center" id="loadMore">View All</button></p></div>
+  {%endif%}
+       
+</main>
+
+
+
+{%include 'paris-suscribe'%}
+
+
+
+{%if section.settings.bottom_banner != blank%}
+<div class="block-brand style-white" >
+    <div style="background-image: url({{section.settings.bottom_banner | img_url: '1024x'}})">
+      <img src="{{section.settings.bottom_banner | img_url: '1024x'}}">
+        <svg class="icon year bottom-left" width="240" height="240">
+            <use xlink:href="#ico-year"></use>
+        </svg>
+    </div>
+    <div class="inner">
+        <div class="contents bottom-right"> <span class="block-title">{{section.settings.bottom_head}}</span>
+            <p class="block-subtitle">{{section.settings.bottom_subhead}}</p>
+          {%if section.settings.bottom_url != blank %}
+            <div class="buttons">
+              <a href="{{section.settings.bottom_url}}" class="btn btn-white ">{{section.settings.bottom_btn}}</a>
+          </div>
+          {%endif%}
+        </div>
+    </div>
+</div>
+{%endif%}
+
+<script>
+ $( document ).ready(function () {
+		$(".moreBox").slice(0, 3).show();
+		if ($(".blogBox:hidden").length != 0) {
+			$("#loadMore").show();
+		}		
+		$("#loadMore").on('click', function (e) {
+			e.preventDefault();
+			$(".moreBox:hidden").slice(0, 6).slideDown();
+			if ($(".moreBox:hidden").length == 0) {
+				$("#loadMore").fadeOut('slow');
+			}
+		});
+	});
+</script>
+
+
+
+{% schema %}
+   {
+    "name": "Fruity Fragance",
+    "settings": [
+  	{
+      "type": "header",
+      "content": "Top"
+    },
+	{
+      "type": "text",
+      "id": "main_head",
+      "label": "Heading"
+    },
+	{
+      "type": "text",
+      "id": "main_subhead",
+      "label": "SubHeading"
+    },
+	{
+      "type": "color",
+      "id": "main_color",
+      "label": "Color Section",
+	  "default":"#ffbac7"
+    },
+ 	{
+      "type": "header",
+      "content": "Bottom"
+    },
+	{
+      "type": "image_picker",
+      "id": "bottom_banner",
+      "label": "Image"
+    },
+	{
+      "type": "text",
+      "id": "bottom_head",
+      "label": "Heading"
+    },
+	{
+      "type": "text",
+      "id": "bottom_subhead",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "bottom_btn",
+      "label": "Button"
+    },
+	{
+      "type": "url",
+      "id": "bottom_url",
+      "label": "Link"
+    }
+	
+	
+],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+	{
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+      ]
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,70 @@
+{% if section.settings.instagram_client_id != blank %}
+  
+<div class="block-inspirations social-feeds-wrap" id="">
+    <div class="container container-smaller paris-bg">
+        <div class="inner"> <span class="block-title">{{section.settings.main_head}} </span> <span class="block-subtitle"> {{section.settings.main_subhead}}  </span>
+            <div id="instafeed" class="patchwork js-instafeed" data-client-id="{{ section.settings.instagram_client_id | strip }}" data-count="{{section.settings.instagram_count }}"></div>
+
+          <a href="{{section.settings.btn_link}}" class="btn">{{section.settings.btn_text}}</a></div>
+    </div>
+</div>
+  
+
+  
+{%endif%}
+
+
+{% schema %}
+   {
+    "name": "Inspirations",
+    "settings": [
+	{
+      "type": "text",
+      "id": "main_head",
+      "label": "Heading"
+    },
+	{
+      "type": "text",
+      "id": "main_subhead",
+      "label": "Name"
+    },
+
+	{
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button Text"
+    },
+    {
+          "type": "text",
+          "id": "instagram_client_id",
+          "label": "Instagram Access Token ([?](http:\/\/outofthesandbox.com\/pages\/instagram-access-token))"
+    },
+    {
+          "type": "range",
+          "id": "instagram_count",
+          "label": "Number of images",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 11
+    },
+	{
+      "type": "url",
+      "id": "btn_link",
+      "label": "Link"
+    }
+],
+ "presets": [{
+    "name": "Inspirations",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

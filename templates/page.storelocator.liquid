@@ -1,0 +1,1556 @@
+
+<script > 
+  
+  function initMap() {
+    window.defaultLatLng = {
+      lat: 51.0277555,
+      lng: -114.227916
+    };
+    var styles = [{
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#e9e9e9"
+        }, {
+            "lightness": 17
+        }]
+    }, {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#f4f4f4"
+        }, {
+            "lightness": 20
+        }]
+    }, {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "color": "#ffffff"
+        }, {
+            "lightness": 17
+        }]
+    }, {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+            "color": "#ffffff"
+        }, {
+            "lightness": 29
+        }, {
+            "weight": 0.2
+        }]
+    }, {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#ffffff"
+        }, {
+            "lightness": 18
+        }]
+    }, {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#ffffff"
+        }, {
+            "lightness": 16
+        }]
+    }, {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#f5f5f5"
+        }, {
+            "lightness": 21
+        }]
+    }, {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#dedede"
+        }, {
+            "lightness": 21
+        }]
+    }, {
+        "elementType": "labels.text.stroke",
+        "stylers": [{
+            "visibility": "on"
+        }, {
+            "color": "#ffffff"
+        }, {
+            "lightness": 16
+        }]
+    }, {
+        "elementType": "labels.text.fill",
+        "stylers": [{
+            "saturation": 36
+        }, {
+            "color": "#333333"
+        }, {
+            "lightness": 40
+        }]
+    }, {
+        "elementType": "labels.icon",
+        "stylers": [{
+            "visibility": "off"
+        }]
+    }, {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [{
+            "color": "#f2f2f2"
+        }, {
+            "lightness": 19
+        }]
+    }, {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [{
+            "color": "#fefefe"
+        }, {
+            "lightness": 20
+        }]
+    }, {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [{
+            "color": "#fefefe"
+        }, {
+            "lightness": 17
+        }, {
+            "weight": 1.2
+        }]
+    }];
+    window.storelocator = new google.maps.Map(document.getElementById('map'), {
+        zoom: 13,
+        center: window.defaultLatLng,
+        disableDefaultUI: true,
+        styles: styles
+    });
+}
+ </script>
+<script>
+  
+var storelocatorLangPath='{{'ca_stores.js'| asset_url}}';
+</script>
+<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmOtUwda-Sd3fy0tQj2RlqKY7sVz1cU3o&language=en&callback=initMap"></script>
+
+
+
+<script>
+  $(function(){
+                 
+    
+	if ($('body').hasClass('internetramaoutput-storelocator-details')) {
+
+
+		if (window.hasOwnProperty('storeLatLng')) {
+			var point = new google.maps.LatLng(window.storeLatLng.lat, window.storeLatLng.lng);
+			var type = window.storeLatLng.hasOwnProperty('type') ? window.storeLatLng.type : 2;
+
+			var marker = new google.maps.Marker({
+				map: window.storelocator,
+				position: point,
+				icon: {
+					url:'https://www.maison-berger.fr/medias/fr/wp-content/uploads/cdn/assets/ico-storelocator-'+type+'.png'
+				}
+			});
+
+			window.storelocator.panTo(point);
+		}
+	}
+
+	if ($('body').hasClass('internetramaoutput-storelocator-index')) {
+		$('#map-form .btn-secondary').click(function (e) {
+			requestCurrentPosition();
+			e.preventDefault();
+			return true;
+		});
+
+		if (!window.hasOwnProperty('defaultLatLng')) {
+			window.defaultLatLng = {
+              lat: 51.0277555,
+              lng: -114.227916
+			};
+		}
+
+		var savedCoords = {
+          lat: localStorage.getItem('ca_coords_lat'),
+			lng: localStorage.getItem('ca_coords_lng')
+		}
+		window.current_position = {
+			lat: window.defaultLatLng.lat,
+			lng: window.defaultLatLng.lng
+		}
+		if (typeof savedCoords.lat == "string" && savedCoords.lat != "null" && savedCoords.lat != null) {
+			window.current_position.lat = savedCoords.lat;
+			window.current_position.lng = savedCoords.lng;
+		}
+		
+
+		if (typeof navigator.permissions !== 'undefined' && savedCoords.lat === "null") {
+			navigator.permissions
+				.query({
+					name: 'geolocation'
+				})
+				.then(function (permission) {
+					if (permission.state == 'granted') {
+						return requestCurrentPosition();
+					} else {
+						loadStores(window.defaultLatLng.lat, window.defaultLatLng.lng);
+					}
+				})
+				.catch(function () {
+					return loadStores(window.defaultLatLng.lat, window.defaultLatLng.lng);
+				});
+		}
+		else {
+			centerMap();
+		}
+
+		$('#map-form input[type="text"]').keyup(function (e) {
+			if (e.keyCode == 13) {
+				requestNewPosition();
+			}
+		});
+
+		$('#map-form #filter').click(function () {
+			$(this).toggleClass('active');
+		})
+
+		$('#map-form button[type="submit"]').click(function (e) {
+			e.preventDefault();
+			requestNewPosition();
+		});
+
+		$('#map-form #mode-toggle > span').click(function () {
+			$('#map-form #mode-toggle > span').removeClass('active');
+			$(this).addClass('active');
+			$('.block-storelocator').attr('data-mode', $(this).data('mode'));
+		});
+
+		window.storelocator.addListener('dragend', function () {
+			
+          
+       
+          var latLng = window.storelocator.getCenter();
+			window.current_position = {
+				lat: latLng.lat(),
+				lng: latLng.lng()
+			}
+			if (window.hasOwnProperty('infoWindow')) {
+				window.infoWindow.close();
+			}
+			loadStores(latLng.lat(), latLng.lng());
+     
+
+		})
+
+		function requestNewPosition() {
+			var val = $('#map-form input[type="text"]').val();
+			if (val != '') {
+				$.ajax({
+					url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBmOtUwda-Sd3fy0tQj2RlqKY7sVz1cU3o&address=' +
+						encodeURI(val),
+					success: function (result) {
+						if (result.status == 'OK') {
+							if (result.results.length > 0) {
+								window.current_position = result.results[0].geometry.location;
+								centerMap();
+							}
+						}
+					}
+				});
+			}
+		}
+
+		function requestCurrentPosition() {
+			var options = {
+				enableHighAccuracy: true,
+				timeout: 5000,
+				maximumAge: 0
+			};
+
+			function success(pos) {
+				var crd = pos.coords;
+
+				if (window.hasOwnProperty('storelocator')) {
+					window.current_position = {
+						lat: crd.latitude,
+						lng: crd.longitude
+					};
+					centerMap();
+				}
+			}
+
+			function error(err) {
+				alert($('#map-form .btn-secondary').data('not-available'));
+				console.warn(err);
+			}
+
+			navigator.geolocation.getCurrentPosition(success, error, options);
+		}
+      
+   
+    // Converts numeric degrees to radians
+    function toRad(Value) 
+    {
+        return Value * Math.PI / 180;
+    }
+      
+    function calcCrow(lat1, lon1, lat2, lon2) 
+    {
+      var R = 6371; // km
+      var dLat = toRad(lat2-lat1);
+      var dLon = toRad(lon2-lon1);
+      var lat1 = toRad(lat1);
+      var lat2 = toRad(lat2);
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c;
+      return d;
+    }
+
+
+
+		function centerMap() {
+
+			loadStores(window.current_position.lat, window.current_position.lng);
+			if (window.storelocator) {
+				window.storelocator.panTo(
+					new google.maps.LatLng(window.current_position.lat, window.current_position.lng)
+				);
+			}
+		}
+
+		function addLoader() {
+			$('.block-storelocator #map-container .absolute .container').append('<div class="loader"></div>');
+		}
+
+		function removeLoader() {
+			$('.block-storelocator #map-container .loader').remove();
+		}
+      
+function sortObjectList(list, orderBy){
+    list.sort(function(a, b){
+        let byIndex = 0;
+        let order = orderBy[byIndex];
+        while(!a[order.by] || !b[order.by] || a[order.by] === b[order.by]){
+            byIndex++;
+            if(byIndex >= orderBy.length){break;}
+            order = orderBy[byIndex];
+        }
+        if(!a[order.by] || !b[order.by] || a[order.by] === b[order.by]){
+            return false;
+        }
+        if(order.desc){
+            return a[order.by] < b[order.by];
+        }
+        return a[order.by] > b[order.by];
+    });
+    return list;
+}
+
+		function loadStores(lat, lng) {	
+          
+      
+			var country = $('#map-form select option:selected').val();
+
+          localStorage.setItem('ca_coords_lat', lat);
+			localStorage.setItem('ca_coords_lng', lng);
+			addLoader();
+			window.loading_stores = true;
+			$.ajax({
+				url: window.storelocatorLangPath,
+				success: function (res) {
+					var result = JSON.parse(res);
+                 
+					if (result) {
+                      
+						var xd = result.data;
+						var new_json = [];
+						var lng_ar = 0;                      
+						if (xd.length > 0) {
+							for (var i = 0; i < xd.length; i++) {
+								
+								lng_ar = calcCrow(lat,lng,parseFloat(xd[i].latitude),parseFloat(xd[i].longitude)).toFixed(1);
+								if(parseInt(lng_ar) <= 120){
+                                    // console.log(lng_ar);
+									
+                                  new_json.push({
+                                    "id": xd[i].id,
+                                    "card_content": xd[i].card_content,
+                                    "window_content": xd[i].window_content,
+                                    "type": xd[i].type,
+                                    "latitude": xd[i].latitude,
+                                    "longitude": xd[i].longitude,
+                                    "range": parseInt(lng_ar)
+                                  });          
+								}
+							}
+						}
+                      
+                      	new_json.sort(function(a,b){return new Date(a.range) - new Date(b.range)});
+                      
+						window.stores = new_json;
+                      
+					} else {
+						window.stores = [];
+					}
+
+					generateItems();
+					updateMap();
+					handleFilterVisibility();
+					window.loading_stores = false;
+				},
+				error: function () {
+					window.stores = [];
+					generateItems();
+					updateMap();
+					handleFilterVisibility();
+					window.loading_stores = false;
+				}
+			})
+		}
+
+		function handleFilterVisibility() {
+			var types = [];
+			if (window.stores.length > 0) {
+				for (var i = 0; i < window.stores.length; i++) {
+					if (types.indexOf(window.stores[i].type) == "-1") {
+						types.push(window.stores[i].type);
+					}
+				}
+			}
+
+			$('#filter li').hide();
+			for (var a = 0; a < types.length; a++) {
+				$('#filter li[data-type="' + types[a] + '"]').show();
+			}
+		}
+
+		function updateMap() {
+			window.infoWindow = new google.maps.InfoWindow({
+				maxWidth: 390
+			});
+			for (var i = 0; i < window.stores.length; i++) {
+              
+            
+				var point = new google.maps.LatLng(
+					parseFloat(window.stores[i].latitude),
+					parseFloat(window.stores[i].longitude)
+				);
+
+				var marker = new google.maps.Marker({
+					map: window.storelocator,
+					position: point,
+					icon: {
+						url: 'https://www.maison-berger.fr/medias/fr/wp-content/uploads/cdn/assets/ico-storelocator-' + window.stores[i].type + '.png'
+					},
+					content: window.stores[i].window_content
+				});
+
+				google.maps.event.addListener(marker, 'click', function () {
+					if(!window.loading_stores) {
+						window.infoWindow.setContent(this.content);
+						window.storelocator.panTo(
+							new google.maps.LatLng(this.position.lat(), this.position.lng())
+						);
+						window.infoWindow.open(window.storelocator, this);
+					}
+				});
+              
+				window.stores[i].marker = marker;
+			}
+		}
+
+		function generateItems() {
+			var target = $('#locations');
+			var output = '';
+
+			if (window.stores.length <= 0) {
+				$('#no-results').addClass('visible');
+				target.addClass('hidden');
+			} else {
+				$('#no-results').removeClass('visible');
+				target.removeClass('hidden');
+			}
+
+			$.each(window.stores, function (index, item) {
+              
+             // console.log(item);
+				if (index % 2 == 0) {
+					output += '<div class="column">';
+				}
+				output += item.card_content;
+				if (index % 2 == 1) {
+					output += '</div>';
+				}
+			});
+			$('#locations').remove();
+
+			$('.block-storelocator > .container').append('<div id="locations">' + output + '</div>');
+
+			setTimeout(function () {
+				removeLoader();
+
+				$('#locations').slick({
+					dots: false,
+					infinite: false,
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					initialSlide: 1,
+					centerMode: true,
+					arrows: true,
+					draggable: false,
+					variableWidth: false,
+					centerPadding: '0',
+					responsive: [{
+							breakpoint: 1400,
+							settings: {
+								slidesToShow: 2
+							}
+						},
+						{
+							breakpoint: 930,
+							settings: {
+								slidesToShow: 1
+							}
+						},
+						{
+							breakpoint: 500,
+							settings: 'unslick'
+						}
+					]
+				});
+			}, 100);
+		}
+
+		$('body').on('click', '#locations .item .link a:first-child', function (e) {
+			e.preventDefault();
+
+			var id = $(this).closest('.item').data('index');
+			var index = false;
+			for(var i = 0; i < window.stores.length; i++) {
+				if(index == false) {
+					if(window.stores[i].id == id) {
+						index = i;
+					}
+				}
+			}
+
+			if(index !== false) {
+				window.storelocator.panTo(
+					new google.maps.LatLng(window.stores[index].latitude, window.stores[index].longitude)
+				);
+				window.infoWindow.setContent(window.stores[index].window_content);
+				window.infoWindow.open(window.storelocator, window.stores[index].marker);
+			}
+
+		});
+	}            
+                     
+   	
+});
+  
+</script>
+
+<div class="container center-content">
+  <div class="category-heading">
+    <h1>Our points of sale</h1>
+    <h3>Find a boutique Maison Berger Paris or a point of sale near you.</h3>
+  </div>
+</div>
+
+<div id="main">
+  
+<div class="block-storelocator" data-mode="list">
+    <div id="map-container">
+        <div id="map"></div>
+        <div class="absolute">
+            <div class="container container-locator">
+                <div id="map-form">
+                    <div class="inner"> <span class="heading"> Find a POS</span>
+                        <a href="#" class="btn-secondary" data-not-available="Geolocation service not available">
+                            <svg class="icon" width="29" height="29">
+                                <use xlink:href="#ico-target"></use>
+                            </svg>USE MY POSITION</a>
+                        <select name="" id="" class="store-selectdata">
+                        <option value="CA">CANADA</option>
+                        </select>
+                        <div class="form-group">
+                            <input type="text" placeholder="Search">
+                            <button type="submit">
+                                <svg class="icon">
+                                    <use xlink:href="#ico-search"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="filter"> <strong> Legend </strong>
+                        <ul>
+                            <li data-type="2" style="display: flex;">
+                                <svg class="icon" width="16" height="20">
+                                    <use xlink:href="#ico-location"></use>
+                                </svg> <span>Stores</span></li>
+                            <li data-type="4" style="display: flex;">
+                                <svg class="icon" width="16" height="20">
+                                    <use xlink:href="#ico-location"></use>
+                                </svg> <span>Reseller</span></li>
+                            <li data-type="1" style="display: flex;">
+                                <svg class="icon" width="16" height="20">
+                                    <use xlink:href="#ico-location"></use>
+                                </svg> <span>Quebec</span></li>
+                            <li data-type="3" style="display: none;">
+                                <svg class="icon" width="16" height="20">
+                                    <use xlink:href="#ico-location"></use>
+                                </svg> <span>Specialty stores</span></li>
+                        </ul>
+                    </div>
+                    <div id="mode-toggle"> <span data-mode="map"> <svg class="icon" width="16" height="20"> <use xlink:href="#ico-location"></use> </svg> Carte </span> <span data-mode="list" class="active"> Liste </span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container container-smaller">
+        <div id="no-results"> No point of sale available at this location.</div>
+      <div id="locations"></div>
+    </div>
+</div>
+
+  
+  
+</div>
+
+
+
+{%include 'paris-suscribe'%}
+
+
+<style>
+  
+  .store-selectdata{
+      cursor: pointer;
+    background: #f6f6f6 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAUCAYAAAE2FxdwAAAAAXNSR…WMIEFoAO8FMkH8/8CAdv7y8OJ+kBwYgBIEKDpgCQMkCAB9OTQXk08OkgAAAABJRU5ErkJggg==) no-repeat right 15px center;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+    border-radius: 1px;
+    font-family: "Euclid Flex",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    height: 50px;
+    line-height: 1.28571;
+    padding: 15px 30px 15px 15px;
+    vertical-align: baseline;
+    width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  .container-locator{
+      display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 30px;
+  }
+  
+  #map-container{
+    position:relative;
+    z-index:0
+}
+#map-container .absolute{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%
+}
+#map-container .absolute .container{
+    height:1px
+}
+.block-storelocator{
+    position:relative
+}
+.block-storelocator .loader{
+    position:absolute;
+    top:0;
+    right:30px;
+    font-size:5px
+}
+@media (max-width: 500px){
+    .block-storelocator .loader{
+        position:fixed;
+        bottom:0;
+        top:initial;
+        right:50px;
+        z-index:1000
+    }
+}
+.block-storelocator #map{
+    height:500px;
+    background-color:#EEE
+}
+.block-storelocator .absolute .container{
+    -webkit-box-pack:start;
+    -webkit-justify-content:flex-start;
+    -ms-flex-pack:start;
+    justify-content:flex-start;
+    position:relative
+}
+.block-storelocator #map-form{
+    width:365px;
+    margin-top:-30px
+}
+.block-storelocator #map-form .inner{
+    background:#081F2C;
+    padding:30px
+}
+.block-storelocator #map-form .heading{
+    text-transform:uppercase;
+    color:#fff;
+    font-size:18px;
+    margin-bottom:20px;
+    display:block
+}
+.block-storelocator #map-form .btn-secondary{
+    width:100%;
+    margin-bottom:20px
+}
+.block-storelocator #map-form .btn-secondary .icon{
+    margin:0 15px 0 0
+}
+.block-storelocator #map-form .form-group{
+    color:#fff;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:center;
+    -webkit-align-items:center;
+    -ms-flex-align:center;
+    align-items:center;
+    height:30px;
+    position:relative;
+    width:180px;
+    width:100%
+}
+.block-storelocator #map-form .form-group input[type="text"]{
+    padding:0 30px 0 0;
+    font-size:13px;
+    border:0;
+    border-bottom:1px solid #fff;
+    background:transparent;
+    height:30px;
+    color:#fff
+}
+.block-storelocator #map-form .form-group input[type="text"]::-webkit-input-placeholder{
+    color:#fff
+}
+.block-storelocator #map-form .form-group input[type="text"]:-ms-input-placeholder{
+    color:#fff
+}
+.block-storelocator #map-form .form-group input[type="text"]::-ms-input-placeholder{
+    color:#fff
+}
+.block-storelocator #map-form .form-group input[type="text"]::placeholder{
+    color:#fff
+}
+.block-storelocator #map-form .form-group input[type="text"]:focus{
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    border-color:#eee;
+    color:#eee
+}
+.block-storelocator #map-form .form-group button{
+    background:transparent;
+    padding:0;
+    border:0;
+    height:100%;
+    border-radius:0;
+    position:absolute;
+    right:0;
+    top:0
+}
+.block-storelocator #map-form .form-group button svg{
+    height:15px;
+    width:15px;
+    fill:#fff
+}
+.block-storelocator #map-form .form-group button:hover svg{
+    fill:#eee
+}
+.block-storelocator #map-form .form-group input[type="text"]{
+    font-size:16px
+}
+.block-storelocator #map-form select{
+    margin-bottom:20px;
+    background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAKCAYAAAC5Sw6hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI0RDQ4MEY5QTIyQjExRThBRDRBQTM4MUY1OUE5Q0QyIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjI0RDQ4MEZBQTIyQjExRThBRDRBQTM4MUY1OUE5Q0QyIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MjRENDgwRjdBMjJCMTFFOEFENEFBMzgxRjU5QTlDRDIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MjRENDgwRjhBMjJCMTFFOEFENEFBMzgxRjU5QTlDRDIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5KtudVAAABiUlEQVR42oySzytEURTHv+fOm0d+ZGsWaJ5myvLNsxYlE2HJxsZ/wNqSvfIHWNjIDiWxsLBRaBRZjNGoiULkV8PovXeP8x5P01DcunXuved87v1+zzXiqcwYfAzHDWPu9Wz/HADhf4PNtO2wr6ZVDIsUt5xDBjtEuFYK2fdC7vQ/FMOye0C0BkYzEa0qRXpGHvHGjFbtY0duyfwFMS1nAFAbIQS4J6bZQEYspIPWJW4S+hMrGvEKh3u/QeJWZpQJywIxJfdGKR4IVKjg0Cse7QoxKwePzNwCnzfrUpm+n3KccQathBDQZYy5L7JCRUluMbdPGv0CvBMfG32NdbPDHvoyn8ykPSn7SzINWV7U+9xbKeYKUX0orbpTdWmnS3u8xUBCzHRJ8QQ0EuLhfJhHlIdys17h+Kq6gz9AQdyQ6rZcrbeluF3WOnq5SD+BWxl0S6e3QXEtyKiGfPuRdNpAvC1h5ycEBzGjPFzJ5x+qAX+Cwg6l7QR8tQDmZ9PjqXLp6KX2U0bBhwADABO9k3LSIafxAAAAAElFTkSuQmCC") !important
+}
+.block-storelocator #map-form #filter{
+    background:#fff;
+    padding:30px;
+    position:relative;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:end;
+    -webkit-align-items:flex-end;
+    -ms-flex-align:end;
+    align-items:flex-end;
+    border-bottom:3px solid #081F2C
+}
+.block-storelocator #map-form #filter::after{
+    content:'';
+    position:absolute;
+    right:30px;
+    top:34px;
+    width:18px;
+    height:10px;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAKCAYAAAC5Sw6hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQwIDc5LjE2MDQ1MSwgMjAxNy8wNS8wNi0wMTowODoyMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjI0RDQ4MEY5QTIyQjExRThBRDRBQTM4MUY1OUE5Q0QyIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjI0RDQ4MEZBQTIyQjExRThBRDRBQTM4MUY1OUE5Q0QyIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MjRENDgwRjdBMjJCMTFFOEFENEFBMzgxRjU5QTlDRDIiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MjRENDgwRjhBMjJCMTFFOEFENEFBMzgxRjU5QTlDRDIiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5KtudVAAABiUlEQVR42oySzytEURTHv+fOm0d+ZGsWaJ5myvLNsxYlE2HJxsZ/wNqSvfIHWNjIDiWxsLBRaBRZjNGoiULkV8PovXeP8x5P01DcunXuved87v1+zzXiqcwYfAzHDWPu9Wz/HADhf4PNtO2wr6ZVDIsUt5xDBjtEuFYK2fdC7vQ/FMOye0C0BkYzEa0qRXpGHvHGjFbtY0duyfwFMS1nAFAbIQS4J6bZQEYspIPWJW4S+hMrGvEKh3u/QeJWZpQJywIxJfdGKR4IVKjg0Cse7QoxKwePzNwCnzfrUpm+n3KccQathBDQZYy5L7JCRUluMbdPGv0CvBMfG32NdbPDHvoyn8ykPSn7SzINWV7U+9xbKeYKUX0orbpTdWmnS3u8xUBCzHRJ8QQ0EuLhfJhHlIdys17h+Kq6gz9AQdyQ6rZcrbeluF3WOnq5SD+BWxl0S6e3QXEtyKiGfPuRdNpAvC1h5ycEBzGjPFzJ5x+qAX+Cwg6l7QR8tQDmZ9PjqXLp6KX2U0bBhwADABO9k3LSIafxAAAAAElFTkSuQmCC") !important
+}
+@media (max-width: 500px){
+    .block-storelocator #map-form #filter{
+        padding:15px 30px
+    }
+    .block-storelocator #map-form #filter::after{
+        top:19px
+    }
+}
+.block-storelocator #map-form #filter strong{
+    font-size:16px;
+    display:block;
+    margin-right:15px
+}
+.block-storelocator #map-form #filter ul{
+    padding:0;
+    margin:0;
+    list-style:none;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex
+}
+.block-storelocator #map-form #filter ul li{
+    margin:0;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex
+}
+.block-storelocator #map-form #filter ul li .icon{
+    width:18px;
+    height:21px;
+    margin-right:5px
+}
+.block-storelocator #map-form #filter ul li:nth-child(1) svg{
+    fill:#E1B77D
+}
+.block-storelocator #map-form #filter ul li:nth-child(2) svg{
+    fill:#081F2C
+}
+.block-storelocator #map-form #filter ul li:nth-child(3) svg{
+    fill:#4C748A
+}
+.block-storelocator #map-form #filter ul li:nth-child(4) svg{
+    fill:#80C2D6
+}
+.block-storelocator #map-form #filter ul li span{
+    display:none;
+    margin-left:20px
+}
+.block-storelocator #map-form #filter.active{
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    -ms-flex-direction:column;
+    flex-direction:column
+}
+.block-storelocator #map-form #filter.active strong{
+    display:block;
+    width:100%;
+    margin-right:0;
+    margin-bottom:15px
+}
+.block-storelocator #map-form #filter.active::after{
+    -webkit-transform:scaleY(-1);
+    transform:scaleY(-1)
+}
+.block-storelocator #map-form #filter.active ul{
+    width:100%;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    -ms-flex-direction:column;
+    flex-direction:column
+}
+.block-storelocator #map-form #filter.active ul li{
+    height:50px;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:center;
+    -webkit-align-items:center;
+    -ms-flex-align:center;
+    align-items:center;
+    border-bottom:1px solid #B6BCC0
+}
+.block-storelocator #map-form #filter.active ul li span{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:end;
+    -webkit-align-items:flex-end;
+    -ms-flex-align:end;
+    align-items:flex-end
+}
+.block-storelocator #no-results{
+    -webkit-box-shadow:0px 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow:0px 5px 15px rgba(0, 0, 0, 0.15);
+    padding:30px;
+    text-align:center;
+    display:none;
+    -webkit-box-pack:center;
+    -webkit-justify-content:center;
+    -ms-flex-pack:center;
+    justify-content:center;
+    -webkit-box-align:center;
+    -webkit-align-items:center;
+    -ms-flex-align:center;
+    align-items:center;
+    margin-top:-60px;
+    z-index:10;
+    background:#fff
+}
+.block-storelocator #no-results.visible{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex
+}
+.block-storelocator.loading #no-results{
+    display:none
+}
+.block-storelocator.loading #locations>div{
+    opacity:0;
+    -webkit-transition:0.2s all ease-out;
+    transition:0.2s all ease-out
+}
+.block-storelocator #locations{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    flex-wrap:wrap;
+    margin-top:-60px;
+    position:relative;
+    z-index:1;
+    -webkit-box-pack:center;
+    -webkit-justify-content:center;
+    -ms-flex-pack:center;
+    justify-content:center;
+    width:100%;
+    min-height:200px
+}
+.block-storelocator #locations .slick-track{
+    padding:20px 0
+}
+.block-storelocator #locations div.column{
+    width:100%;
+    opacity:1;
+    -webkit-transition:0.2s all ease-out;
+    transition:0.2s all ease-out
+}
+@media (max-width: 500px){
+    .block-storelocator #locations{
+        margin:0;
+        padding:0
+    }
+    .block-storelocator #locations div.column{
+        min-width:0;
+        padding:0;
+        margin:0
+    }
+}
+.block-storelocator .item{
+    -webkit-box-shadow:0px 5px 15px rgba(0, 0, 0, 0.15);
+    box-shadow:0px 5px 15px rgba(0, 0, 0, 0.15);
+    width:360px;
+    padding:10px;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    background:#fff;
+    margin:auto;
+}
+.block-storelocator .item+.item{
+    margin-top:15px
+}
+.block-storelocator .item .image{
+    padding-right:30px;
+    width:150px
+}
+.block-storelocator .item .image img{
+    width:120px;
+    display:block;
+    height:93px;
+    background:#081F2C
+}
+.block-storelocator .item .informations{
+    width:calc(100% - 150px);
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    -ms-flex-direction:column;
+    flex-direction:column;
+}
+.block-storelocator .item .informations em{
+    margin-bottom:auto
+}
+.block-storelocator .item .informations p{
+    font-size:13px
+}
+.block-storelocator .item p{
+    margin:0
+}
+.block-storelocator .item .link{
+    margin-top:auto;
+    padding-top:0
+}
+.block-storelocator .item .link a{
+    text-decoration:underline
+}
+.block-storelocator .item .link a:hover{
+    text-decoration:none
+}
+.block-storelocator .item .link a:first-child{
+    font-weight:500;
+    margin-right:15px
+}
+.block-storelocator .item .link a:last-child::after{
+    content:">";
+    display:inline-block;
+    margin-left:3px
+}
+@media (max-width: 500px){
+    .block-storelocator .item{
+        -webkit-box-shadow:none;
+        box-shadow:none;
+        padding:15px 0;
+        margin:0;
+        font-size:13px;
+        width:100%;
+        max-width:400px;
+        min-height:100px;
+        margin:0 !important
+    }
+    .block-storelocator .item .image{
+        padding-right:15px;
+        width:120px
+    }
+    .block-storelocator .item .image img{
+        width:105px;
+        height:auto
+    }
+    .block-storelocator .item .informations{
+        width:calc(100% - 120px)
+    }
+    .block-storelocator .item .link a:first-child{
+        display:none
+    }
+}
+.block-storelocator #map div{
+    background:none !important;
+    -webkit-box-shadow:none !important;
+    box-shadow:none !important;
+    border:0 !important
+}
+.block-storelocator #map .gm-style-iw+button{
+    top:60px !important;
+    right:40px !important
+}
+.block-storelocator #map .gm-style-iw{
+    top:30px !important
+}
+.block-storelocator #map .gm-style-iw div{
+    overflow:visible !important
+}
+.block-storelocator #map .item-wrapper{
+    background:#fff !important;
+    -webkit-box-shadow:0px 5px 15px rgba(0, 0, 0, 0.15) !important;
+    box-shadow:0px 5px 15px rgba(0, 0, 0, 0.15) !important;
+    padding:10px 5px;
+    position:relative;
+    margin:20px 0 30px
+}
+.block-storelocator #map .item-wrapper, .block-storelocator #map .item-wrapper p{
+    font-family:"Euclid Flex",Helvetica,Arial,sans-serif
+}
+.block-storelocator #map .item-wrapper p{
+    font-weight:normal;
+    line-height:16px;
+    margin-top:3px;
+    margin-bottom:3px
+}
+.block-storelocator #map .item-wrapper .item{
+    margin:0;
+    padding:10px 18px 20px;
+    -webkit-box-shadow:none;
+    box-shadow:none;
+    width:auto;
+    min-height:0
+}
+.block-storelocator #map .item-wrapper .business-hours{
+    padding:0 18px 10px 18px
+}
+.block-storelocator #map .item-wrapper .business-hours .title{
+    font-weight:500;
+    display:inline-block;
+    margin-bottom:5px
+}
+.block-storelocator #map .item-wrapper .business-hours ul{
+    list-style:none;
+    padding:0;
+    margin:0;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    flex-wrap:wrap
+}
+.block-storelocator #map .item-wrapper .business-hours ul li{
+    width:50%;
+    padding:0;
+    margin:0 0 2px 0;
+    font-size:12px
+}
+.block-storelocator #map .item-wrapper .read-more{
+    text-decoration:underline;
+    position:absolute;
+    right:10px;
+    bottom:10px
+}
+.block-storelocator #map .item-wrapper .read-more:hover{
+    text-decoration:none
+}
+.block-storelocator #map .item-wrapper .read-more::after{
+    content:">";
+    display:inline-block;
+    margin-left:5px
+}
+@media (max-width: 500px){
+    .block-storelocator #map .item-wrapper .item .image{
+        display:none
+    }
+    .block-storelocator #map .item-wrapper .item .informations{
+        width:100%;
+        height:auto
+    }
+    .block-storelocator #map .item-wrapper .read-more{
+        position:relative;
+        bottom:0;
+        display:block;
+        text-align:right
+    }
+}
+.block-storelocator #mode-toggle{
+    display:none
+}
+@media (max-width: 500px){
+    .block-storelocator #mode-toggle{
+        display:-webkit-inline-box;
+        display:-webkit-inline-flex;
+        display:-ms-inline-flexbox;
+        display:inline-flex;
+        border:1px solid #081F2C;
+        background:#fff;
+        margin:15px 15px -67px auto
+    }
+    .block-storelocator #mode-toggle span{
+        text-transform:uppercase;
+        display:-webkit-box;
+        display:-webkit-flex;
+        display:-ms-flexbox;
+        display:flex;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        -ms-flex-pack:center;
+        justify-content:center;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        -ms-flex-align:center;
+        align-items:center;
+        padding:15px 20px;
+        font-weight:500
+    }
+    .block-storelocator #mode-toggle span svg{
+        fill:#081F2C;
+        margin-right:10px
+    }
+    .block-storelocator #mode-toggle span.active{
+        color:#fff;
+        background-color:#081F2C
+    }
+    .block-storelocator #mode-toggle span.active svg{
+        fill:#fff
+    }
+}
+@media (max-width: 500px){
+    .block-storelocator #map-container{
+        -webkit-box-orient:vertical;
+        -webkit-box-direction:reverse;
+        -webkit-flex-direction:column-reverse;
+        -ms-flex-direction:column-reverse;
+        flex-direction:column-reverse;
+        display:-webkit-box;
+        display:-webkit-flex;
+        display:-ms-flexbox;
+        display:flex
+    }
+    .block-storelocator #map-container #map{
+        height:480px
+    }
+    .block-storelocator #map-container .absolute{
+        position:relative
+    }
+    .block-storelocator #map-container .absolute .container{
+        padding:0;
+        height:auto
+    }
+    .block-storelocator #map-form{
+        width:100%;
+        margin:0;
+        display:-webkit-box;
+        display:-webkit-flex;
+        display:-ms-flexbox;
+        display:flex;
+        -webkit-box-orient:vertical;
+        -webkit-box-direction:normal;
+        -webkit-flex-direction:column;
+        -ms-flex-direction:column;
+        flex-direction:column
+    }
+    .block-storelocator[data-mode="map"] #locations{
+        display:none
+    }
+    .block-storelocator[data-mode="list"] #map{
+        display:none
+    }
+    .block-storelocator[data-mode="list"] #map-container+div{
+        margin-top:90px
+    }
+}
+@media (max-width: 360px){
+    .block-storelocator .container-smaller{
+        padding:0 15px
+    }
+}
+.block-storelocator-details{
+    margin-bottom:30px
+}
+.block-storelocator-details #map{
+    height:380px;
+    background-color:#EEE
+}
+.block-storelocator-details #map-container .container{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    height:100%;
+    -webkit-box-pack:end;
+    -webkit-justify-content:flex-end;
+    -ms-flex-pack:end;
+    justify-content:flex-end;
+    -webkit-box-align:end;
+    -webkit-align-items:flex-end;
+    -ms-flex-align:end;
+    align-items:flex-end;
+    padding-bottom:15px
+}
+.block-storelocator-details #map-container .absolute{
+    height:100%
+}
+.block-storelocator-details .inner{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    flex-wrap:wrap;
+    -webkit-box-pack:center;
+    -webkit-justify-content:center;
+    -ms-flex-pack:center;
+    justify-content:center;
+    width:100%
+}
+.block-storelocator-details .inner>div{
+    width:50%
+}
+.block-storelocator-details .inner .store-informations{
+    padding:0 60px
+}
+.block-storelocator-details .inner .store-informations .special-message{
+    color:#EA544E;
+    font-weight:500;
+    text-transform:uppercase
+}
+.block-storelocator-details .inner .store-informations .description{
+    font-size:16px
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations{
+    margin-top:30px;
+    padding-top:30px;
+    position:relative;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    flex-wrap:wrap
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations>div{
+    padding-right:15px
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations .contact{
+    margin-right:30px;
+    max-width:250px
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations::before{
+    content:"";
+    width:60px;
+    height:1px;
+    background:#081F2C;
+    display:block;
+    position:absolute;
+    left:0;
+    top:0
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations .title{
+    font-weight:500;
+    text-transform:uppercase;
+    font-size:16px;
+    display:block;
+    line-height:30px
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations .address{
+    line-height:18px;
+    margin-bottom:15px
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    line-height:18px
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations a{
+    font-weight:500
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations li{
+    color:#4C748A;
+    margin:0
+}
+.block-storelocator-details .inner .store-informations .store-useful-informations li.current-day{
+    color:#081F2C
+}
+.block-storelocator-details .inner .store-informations .store-availabilities{
+    background:#F5FBFF;
+    padding:30px;
+    margin-top:30px
+}
+.block-storelocator-details .inner .store-informations .store-availabilities strong{
+    font-size:16px;
+    line-height:30px;
+    margin-bottom:5px;
+    display:block
+}
+.block-storelocator-details .inner .store-informations .store-availabilities ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    flex-wrap:wrap
+}
+.block-storelocator-details .inner .store-informations .store-availabilities ul li{
+    margin:0;
+    margin-right:20px;
+    width:60px
+}
+.block-storelocator-details .inner .store-informations .store-availabilities ul span{
+    width:60px;
+    height:60px;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:end;
+    -webkit-align-items:flex-end;
+    -ms-flex-align:end;
+    align-items:flex-end;
+    -webkit-box-pack:center;
+    -webkit-justify-content:center;
+    -ms-flex-pack:center;
+    justify-content:center
+}
+.block-storelocator-details .inner .store-informations .store-availabilities ul em{
+    font-style:italic;
+    font-size:12px;
+    display:block;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid #081F2C;
+    text-align:center
+}
+@media (max-width: 480px){
+    .block-storelocator-details .inner .store-informations .store-availabilities ul{
+        -webkit-box-pack:justify;
+        -webkit-justify-content:space-between;
+        -ms-flex-pack:justify;
+        justify-content:space-between
+    }
+    .block-storelocator-details .inner .store-informations .store-availabilities ul li{
+        margin:0 5px
+    }
+}
+@media (max-width: 1024px){
+    .block-storelocator-details .inner .store-informations{
+        width:100%
+    }
+}
+.block-storelocator-details .inner .store-medias img{
+    width:100%
+}
+.block-storelocator-details .inner .store-medias .bottom{
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    -webkit-box-align:center;
+    -webkit-align-items:center;
+    -ms-flex-align:center;
+    align-items:center;
+    width:100%;
+    -webkit-box-pack:justify;
+    -webkit-justify-content:space-between;
+    -ms-flex-pack:justify;
+    justify-content:space-between;
+    margin-top:30px;
+    -webkit-flex-wrap:wrap;
+    -ms-flex-wrap:wrap;
+    flex-wrap:wrap
+}
+.block-storelocator-details .inner .store-medias .bottom ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    min-width:180px
+}
+.block-storelocator-details .inner .store-medias .bottom ul li{
+    margin:0 15px 0 0
+}
+.block-storelocator-details .inner .store-medias .bottom svg{
+    fill:#081F2C;
+    -webkit-transition:0.1s all ease-out;
+    transition:0.1s all ease-out
+}
+.block-storelocator-details .inner .store-medias .bottom svg:hover{
+    fill:#4C748A;
+    -webkit-transition:0.2s all ease-out;
+    transition:0.2s all ease-out
+}
+@media (max-width: 480px){
+    .block-storelocator-details .inner .store-medias .bottom{
+        -webkit-box-orient:vertical;
+        -webkit-box-direction:reverse;
+        -webkit-flex-direction:column-reverse;
+        -ms-flex-direction:column-reverse;
+        flex-direction:column-reverse;
+        -webkit-box-align:center;
+        -webkit-align-items:center;
+        -ms-flex-align:center;
+        align-items:center;
+        -webkit-box-pack:center;
+        -webkit-justify-content:center;
+        -ms-flex-pack:center;
+        justify-content:center
+    }
+    .block-storelocator-details .inner .store-medias .bottom ul{
+        margin:30px 0
+    }
+}
+@media (max-width: 1024px){
+    .block-storelocator-details .inner .store-medias{
+        display:-webkit-box;
+        display:-webkit-flex;
+        display:-ms-flexbox;
+        display:flex;
+        -webkit-box-orient:vertical;
+        -webkit-box-direction:normal;
+        -webkit-flex-direction:column;
+        -ms-flex-direction:column;
+        flex-direction:column;
+        padding:0 60px;
+        width:100%
+    }
+    .block-storelocator-details .inner .store-medias .bottom{
+        -webkit-box-ordinal-group:2;
+        -webkit-order:1;
+        -ms-flex-order:1;
+        order:1;
+        margin-bottom:15px
+    }
+    .block-storelocator-details .inner .store-medias img{
+        -webkit-box-ordinal-group:3;
+        -webkit-order:2;
+        -ms-flex-order:2;
+        order:2
+    }
+}
+@media (max-width: 600px){
+    .block-storelocator-details .inner > .store-medias, .block-storelocator-details .inner>.store-informations{
+        padding-left:0;
+        padding-right:0
+    }
+}
+  
+ 
+  
+</style>

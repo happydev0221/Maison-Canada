@@ -1,0 +1,109 @@
+<div id="countries-list" style="display:none">
+  <div>
+    {% if section.blocks.size > 0 %}
+    <ul>
+      <li class="section-header">EUROPE</li>
+      {% for block in section.blocks %}
+      {%if block.settings.group == "EU"%}
+      <li {%if block.settings.country == "Canada"%}class="active"{%endif%}>
+        <a href="{{block.settings.store_link}}" title="{{block.settings.country}}">
+          <svg class="icon flag">
+            <use xlink:href="#{{block.settings.flag}}"></use>
+          </svg>
+          <span>{{block.settings.country}}</span>
+          <svg class="icon icon-shop" width="30" height="31"> <use xlink:href="#ico-cart"></use> </svg>
+        </a>
+      </li>
+      {%endif%}
+      {%endfor%}
+    </ul>
+    <ul>
+
+      <li class="section-header">ASIA &amp; MIDDLE-EAST</li>
+
+      {% for block in section.blocks %}
+      {%if block.settings.group == "AS"%}
+      <li {%if block.settings.country == "Canada"%}class="active"{%endif%}>
+        <a href="{{block.settings.store_link}}" title="{{block.settings.country}}">
+          <svg class="icon flag">
+            <use xlink:href="#{{block.settings.flag}}"></use>
+          </svg>
+          <span>{{block.settings.country}}</span>
+          <svg class="icon icon-shop" width="30" height="31"> <use xlink:href="#ico-cart"></use> </svg>
+        </a>
+
+      </li>
+      {%endif%}
+      {%endfor%}
+
+
+      <li class="section-header">AMERICA</li>
+
+      {% for block in section.blocks %}
+      {%if block.settings.group == "AM"%}
+      <li {%if block.settings.country == "Canada"%}class="active"{%endif%}>
+        <a href="{{block.settings.store_link}}" title="{{block.settings.country}}">
+          <svg class="icon flag">
+            <use xlink:href="#{{block.settings.flag}}"></use>
+          </svg>
+          <span>{{block.settings.country}}</span>
+          <svg class="icon icon-shop" width="30" height="31"> <use xlink:href="#ico-cart"></use> </svg>
+        </a>
+      </li>
+      {%endif%}
+      {%endfor%}
+    </ul>
+
+    {% endif %}
+
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Countries Popup",
+    "settings": [],
+  "blocks": [
+    {
+      "type": "country",
+      "name": "Country",
+      "settings": [
+        {
+          "type": "text",
+          "id": "country",
+          "label": "Country"
+        },
+  		{
+          "type": "text",
+          "id": "flag",
+          "label": "Icon",
+		  "default":"flag-be"
+        },
+        {
+           "type": "select",
+           "id": "group",
+           "options": [
+              { "value": "EU", "label": "EUROPE"},
+              { "value": "AS", "label": "ASIA"},
+              { "value": "AM", "label": "AMERICA"}
+           ],
+           "label": "Group",
+		   "default": "EU"
+        },
+   		{
+          "type": "url",
+          "id": "store_link",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

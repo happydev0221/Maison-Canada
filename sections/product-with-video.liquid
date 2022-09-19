@@ -1,0 +1,511 @@
+<div class="container main main-wrapper">
+  <div class="sixteen columns">
+    <div class="clearfix breadcrumb">
+      {% include "product-breadcrumb" %}
+    </div>
+  </div>
+
+
+<div class="block-product-heading sixteen columns">
+    <div class="left">
+      {%if product.available%}
+      <span class="new-custom">New</span>
+      {%else%}
+      <span class="new-custom">
+      {% if product.tags contains 'coming soon' %}
+		Coming Soon
+      {%else%}
+      {{settings.soldout_text}}
+  	  {% endif %}
+      </span>
+      {%endif%}
+        <div class="page-title-wrapper product">
+            <h1 class="page-title"><span class="base"  itemprop="name">{{product.title}}</span></h1></div>
+      		{% assign variant = product.selected_or_first_available_variant %}
+    </div>
+    <div class="right">
+          {% if section.settings.display_social_buttons %}
+        <div class="product-social-links">
+            <div class="product-addto-links">
+                <a href="#" class="action towishlist">
+                    <svg class="icon" width="28" height="25">
+                        <use xlink:href="#ico-heart"></use>
+                    </svg>
+                </a>
+            </div>
+            <a href="#" id="product-sharing" class="">
+                <svg class="icon" width="28" height="30">
+                    <use xlink:href="#ico-share"></use>
+                </svg>
+            </a>
+            <div class="sharing-box">
+                <a href="//www.facebook.com/sharer.php?u={{ shop.url | append: product.url }}" target="_blank">
+                    <svg class="icon" width="19.35" height="19.35">
+                        <use xlink:href="#ico-facebook"></use>
+                    </svg>
+                </a>
+                <a href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: product.url }}" target="popup">
+                    <svg class="icon" width="23.54" height="19.93">
+                        <use xlink:href="#ico-twitter"></use>
+                    </svg>
+                </a>
+            </div>
+        </div>
+      {%endif%}
+    </div>
+</div>
+    
+</div>
+
+
+{%assign split_extras = product.images[0].alt | split: '--'%}
+
+
+
+    {% assign color_hex = "#F5FBFF"%}
+	{% assign bg_video = "_9VUPq3SxOc"%}
+	{% assign img_custom = ""%}
+	
+    {% if split_extras[0] != product.title%}
+
+	{%if split_extras[0] != blank %}
+
+    {% assign color_hex = split_extras[0]%}
+	
+	{%endif%}
+
+	{%if split_extras[1] != blank and split_extras[1] contains "youtube"%}
+
+	{% assign bg_video = split_extras[1] | replace: 'https://www.youtube.com/watch?v=', ''%}
+
+	{%endif%}
+
+	{%if split_extras[2] != blank %}
+	{% assign img_custom = split_extras[2]%}
+
+	{%endif%}
+
+    {%endif%}
+
+
+
+
+  <div class="product-line">
+    <div class="block-background-image">
+       <div class="image" style="background-image: url({{img_custom}})"></div>
+    </div>
+    <div class="container">
+    <div class="sixteen columns">
+    <div class="paris-product-bg">
+        <div class="block-product-image">
+            <div id="main-image">
+                <div class="gallery-placeholder">
+                <img src="{{product.featured_image | img_url :'large'}}">
+              	</div>
+                <div id="zoom">Zoom</div>
+            </div>
+          {%if product.images.size > 0%}
+            <ul id="product-image-thumbs" {%if product.images.size == 1%}style="display:none"{%endif%}>
+               {% for image in product.images %}
+             <li><img src="{{ image | product_img_url: '70x'}}" data-img="{{ image | product_img_url: '2048x'}}"></li>
+              {%endfor%}
+            </ul>
+          {%endif%}
+        </div>
+        <div class="block-product-add-cart">
+          
+          {% assign s_count = 0 %}
+          
+		   {%assign split_desc = product.description | split: '{split}'%}
+          
+          {%for data in split_desc%}
+
+          {% assign count = count | plus: 1 %}
+
+          {%if forloop.index == 1 %}
+
+          {%assign item_1 = split_desc[0] %}
+
+          {%endif%}
+
+          {%if forloop.index == 2 %}
+
+          {%assign item_2 = split_desc[1] %}
+
+          {%endif%}
+
+          {%if forloop.index == 3 %}
+
+          {%assign item_3 = split_desc[2] %}
+
+          {%endif%}
+
+          {%if forloop.index == 4 %}
+
+          {%assign item_4 = split_desc[3] %}
+
+          {%endif%}
+           {%if forloop.index == 5 %}
+
+          {%assign item_5 = split_desc[4] %}
+
+          {%endif%}
+            {%if forloop.index == 6 %}
+
+          {%assign item_6 = split_desc[5] %}
+
+          {%endif%}
+           {%if forloop.index == 7 %}
+
+          {%assign item_7 = split_desc[6] %}
+
+          {%endif%}
+           {%if forloop.index == 8 %}
+
+          {%assign item_8 = split_desc[7] %}
+
+          {%endif%}
+            {%if forloop.index == 9 %}
+
+          {%assign item_9 = split_desc[8] %}
+
+          {%endif%}
+             {%if forloop.index == 10 %}
+
+          {%assign item_10 = split_desc[9] %}
+
+          {%endif%}
+
+		  {%endfor%}
+
+          
+            <div class="product attribute short-description">
+              <div class="value" itemprop="description">
+                   {{item_1 }}
+              </div>
+            </div>
+       
+          
+
+          
+
+          {% if product.options.size == 1 and product.variants.size > 1 or product.options.size == 1 and product.options[0] != "Title" %}
+          <div class="combinations">
+          {%unless product.options[0] == "Capacity" %}
+          <span class="current">
+          {{ product.options[0] }}: {{product.variants[0].title}}
+          </span>
+          {%endunless%}
+                <ul {% if product.options[0] == "Capacity"%}class="combination-capacity"{%endif%}>
+                    <li class="active">
+                      <a href="{{product.url}}"><img src="{{product.featured_image | img_url :'50x'}}">
+                      {% if product.options[0] == "Capacity"%}
+                      {{product.variants[0].title}}
+                      {%endif%}
+                      </a>
+                    </li>
+                  
+                  {%for tag in product.tags%}
+                  {%if tag contains "comb_"%}
+                  {%assign comb_handle = tag | replace: "comb_", "" %}
+                
+                  <li>
+                      <a href="{{all_products[comb_handle].url}}"><img src="{{all_products[comb_handle].featured_image | img_url :'50x'}}">
+                        {% if product.options[0] == "Capacity"%}
+                        {{all_products[comb_handle].variants[0].title}}
+                        {%endif%}
+                    </a>
+                    </li>
+       
+                  {%endif%}                 
+                  {%endfor%}
+                </ul>
+            </div>
+            {% endif %}
+   
+            <div class="product-add-form sale-informations">
+        
+              
+          {% capture 'form_id' %}product-form-{{ product.id }}{{ section.id }}{{ block.id }}{% endcapture %}
+          {% capture 'class_id' %}clearfix product_form init {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %}{% endcapture %}
+          {% capture 'money_format' %}{{ shop.money_format }}{% endcapture %}
+          {% capture 'money_currency' %}{{ shop.money_format }}{% endcapture %}
+          {% capture 'select_id' %}product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}{% endcapture %}
+          {% capture 'enable_state' %}{% if template contains 'product' %}true{% else %}false{% endif %}{% endcapture %}
+          {% capture 'json_p' %}{{ product | json | escape }}{% endcapture %}
+          {% capture 'ident' %}{{ product.id }}{% endcapture %}
+              
+              
+{% if product.available %}
+{% form 'product', product,id:form_id, class:class_id,data-money-format:money_format,data-shop-currency:money_currency,data-select-id:select_id,data-enable-state:enable_state, data-product:json_p, data-product-id:ident %}
+					
+              
+{% if product.options.size > 1 %}
+      <div class="select">
+        <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id" class="multi_select">
+          {% for v in product.variants %}
+            <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% elsif product.options.size == 1 and product.variants.size > 1 or product.options.size == 1 and product.options[0] != "Title" %}
+      <div class="select">
+        <label>{{ product.options[0] }}</label>
+        <select id="product-select-{{ product.id }}{{ product-form }}{{ section.id }}{{ block.id }}" name="id">
+          {% for v in product.variants %}
+            <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% else %}
+      <input type="hidden" name="id" value="{{ variant.id }}" />
+    {% endif %}
+              
+             {%comment%}
+              <div class="tag-wrapper">
+                  <span class="tag tag-shipping">Free Shipping</span>
+              </div>
+              {%endcomment%}
+              
+              
+              
+                    <div class="product-info-price">                    
+                        <div class="price-box price-final_price">
+                          <p class="modal_price" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                            <meta itemprop="priceCurrency" content="{{ shop.currency }}" />
+            				<meta itemprop="seller" content="{{ shop.name | escape }}" />
+            				<link itemprop="availability" href="http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}">
+            				<meta itemprop="itemCondition" content="New" />
+                            <span itemprop="price" content="{{ variant.price | money_without_currency }}" class="price-container price-final_price tax weee {% if variant.compare_at_price > variant.price %}sale{% endif %}">
+                            <span class="price-wrapper">
+                              {% if variant.price > 0 %}
+                              <span class="price"><span class="money" data-product-id="{{ product.id }}">{{ variant.price | money }}</span></span>
+                              {% else %}
+                              {{ settings.free_price_text }}
+                              {% endif %}
+                              <span class="was_price">
+                                {% if variant.price < variant.compare_at_price and variant.available %}
+                                  <span class="price"><span class="bold-compare-at-money" data-product-id="{{ product.id }}">{{ variant.compare_at_price | money }}</span></span>
+                                {% endif %}
+                              </span>
+                            </span>
+                          </span>
+                          </p>
+                        </div>
+                    </div>
+              
+              {% if settings.cart_action == 'reload_page' %}
+      		  	<input type="hidden" name="return_to" value="back" />
+      				{% elsif settings.cart_action == 'redirect_checkout' %}
+        			<input type="hidden" name="return_to" value="/checkout" />
+      			{% endif %}
+              
+                    <div class="add-to-cart-line">
+                        <div class="qty-selector">
+                            <input type="number" name="quantity" id="qty" value="1"  class="input-text qty"><span class="minus"></span><span class="bonus"></span></div>
+                        <div class="actions">
+                       {% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}                          
+                            <button type="submit" name="add" class="add_to_cart action primary tocart add-to-cart" data-label={{ add_to_cart_label | json }}><span class="text">Add to cart</span></button>
+                            <div id="instant-purchase">
+                            </div>
+                        </div>
+                    </div>
+              {%comment%}
+                    <a href="/pages/store-locator" class="btn" target="_blank">
+                        <svg class="icon" width="16" height="20">
+                            <use xlink:href="#ico-location"></use>
+                        </svg>Buy in store</a>
+              {%endcomment%}
+                {%endform%}
+              {%else%}
+              
+              {% include 'product-notify-me'%}
+              {%endif%}
+            </div>
+        </div>
+    </div>
+      </div>
+    </div>
+</div>
+  
+  
+  
+<div class="container">
+ 
+ 
+  
+    <div class="sixteen columns">
+      
+      
+      <div class="product-social-links product-social-inner">
+        <div class="product-addto-links" data-role="add-to-links">
+          <a href="#" class="action towishlist">
+            <svg class="icon" width="28" height="25">
+              <use xlink:href="#ico-heart"></use>
+            </svg>
+          </a>
+        </div>
+        <a href="#" id="product-sharing">
+          <svg class="icon" width="28" height="30">
+            <use xlink:href="#ico-share"></use>
+          </svg>
+        </a>
+        <div class="sharing-box">
+          <a href="//www.facebook.com/sharer.php?u={{ shop.url | append: product.url }}" target="_blank">
+            <svg class="icon" width="19.35" height="19.35">
+              <use xlink:href="#ico-facebook"></use>
+            </svg>
+          </a>
+          <a href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: product.url }}" target="popup">
+            <svg class="icon" width="23.54" height="19.93">
+              <use xlink:href="#ico-twitter"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+      
+      </div>
+  </div>
+
+   
+ <div class="block-product-tabs">
+    <div class="container-rtepr container-smaller">
+        <div class="inner">
+            <div id="product-tab-content" class="close">
+                <input id="block-product-tab-description" type="radio" name="tabs" checked="">
+                <label for="block-product-tab-description"> Description</label>
+                <div class="block-product-tab-description">
+                    <div class="col-left">
+                        <div class="description"> 
+                          
+                         {{item_2}}
+                      
+                      	</div>
+                        
+                      
+                      <div class="block-product-quality " id="">
+                            <div class="image"><img src="https://www.maison-berger.fr/medias/fr/wp-content/uploads/LOGO_QUALITE-MB-e1537350457206.png" alt=""></div>
+                            <div class="contents">
+                                <p class="title">{{item_3}}</p>
+                                <p class="subtitle">{{item_4}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-right">
+                        <div class="usage-advices"> <span class="title"> USAGE </span> <span class="subtitle"> TIPS </span>
+                            {{item_5}}
+                        </div>
+                    </div>
+                </div>
+                <input id="block-product-tab-specifications" type="radio" name="tabs">
+                <label for="block-product-tab-specifications">Specifications</label>
+                <div class="block-product-tab-specifications">
+                    {{item_6}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="block-ritual " style="background:{{color_hex}}">
+    <div class="container container-smaller">
+        <div class="inner">
+            <div class="contents">
+               {{item_7}}
+            </div>
+            <div class="media">
+                <div>
+                    <iframe width="525" height="295" src="https://www.youtube.com/embed/{{bg_video}}?feature=oembed&amp;rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
+                	<svg viewBox="0 0 830 467"></svg>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+      <div class="sixteen columns">
+  
+    {% if section.settings.display_related_products %}
+      {% capture limit %}{{ section.settings.products_per_row | plus: 1 }}{% endcapture %}
+
+      {% if collection and collection.all_products_count > 1 %}
+        {% assign col = collection.handle %}
+      {% else %}
+        {% assign col = product.collections.last.handle %}
+      {% endif %}
+
+      {% for tag in product.tags %}
+        {% if tag contains 'meta-related-collection-' %}
+          {% assign related_collection_handle = tag | remove: 'meta-related-collection-' %}
+          {% if collections[related_collection_handle].all_products_count > 0 %}
+            {% assign col = related_collection_handle %}
+            {% assign collection = collections[col] %}
+            {% capture limit %}{{ collection.products_count | plus: 1 }}{% endcapture %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+      {% if col and collections[col].all_products_count > 0 %}
+        {% if collections[col].all_products_count != 1 or collections[col].products.first.id != product.id %}
+          {% assign skip_product = product %}
+          {% assign products = collections[col].products %}
+          {% assign products_per_row = section.settings.products_per_row %}
+          {% include 'related-products' with sidebar: false %}
+        {% endif %}
+      {% endif %}
+    {% endif %}
+
+  </div>
+  </div>
+
+{%include 'paris-suscribe'%}
+
+
+{% schema %}
+{
+  "name": "Product",
+  "class": "product-template-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "product_breadcrumb",
+      "label": "Show breadcrumb links"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_social_buttons",
+      "label": "Show social media share icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "display_related_products",
+      "label": "Show related products ([?](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115006909487-Related-Products))",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "Related products per row",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "product_height",
+      "label": "Product image height",
+      "min": 200,
+      "max": 800,
+      "step": 10,
+      "default": 500,
+      "unit": "px"        
+    }
+  ]
+}
+{% endschema %}

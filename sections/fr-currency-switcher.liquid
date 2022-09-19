@@ -1,0 +1,36 @@
+{% if section.settings.enable %}
+<script>
+  $('body').addClass('{{ request.locale.iso_code }}');
+  $('.price').each(function(i, e) { $(e).html("<span class='sign'></span><span class='value'>" + $(e).html() + "</value>") });
+</script>
+<style>
+  span.price {
+    display: inline-grid;    grid-template-columns: auto auto;    grid-template-areas: "first second";
+  }
+  .fr span.sign {
+    grid-area: second;
+  }
+  .fr span.value {
+    grid-area: first;
+  }
+</style>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Currency Mover",
+    "settings": [ {
+        "id": "enable",
+        "type": "checkbox",
+        "label": "Enable/Disable",
+		"default": true
+      }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

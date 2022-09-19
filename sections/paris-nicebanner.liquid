@@ -1,0 +1,80 @@
+<div class="block-collection " style="background-color:{{section.settings.banner_bg_bg}}" id="">
+    <div class="container paris-bg">
+        <div class="contents"> <span class="block-title" style="color:{{section.settings.banner_bg_color}}">{{section.settings.banner_title}}</span>
+            <p class="block-subtitle">
+             {{section.settings.banner_content}}</p> 
+          
+          <a href="{{section.settings.banner_link}}" class="btn"> {{section.settings.banner_btn}} </a>
+      
+      </div>
+        <div class="image"> <img src="{{section.settings.banner_img | img_url:'master'}}" width="830" height="520"></div>
+    </div>
+</div>
+
+
+<style>
+  .block-collection {
+    background: rgba(235, 150, 143, 0.1) url('{{section.settings.banner_bg| img_url:'master'}}');
+}
+</style>
+
+{% schema %}
+   {
+    "name": "Banner 2",
+    "settings": [
+	{
+      "type": "color",
+      "id": "banner_bg_bg",
+      "label": "Backgound Pattern",
+	  "default": "#eb968f"
+    },
+	{
+      "type": "color",
+      "id": "banner_bg_color",
+      "label": "Color Heading",
+	  "default": "#eb968f"
+    },
+	{
+      "type": "image_picker",
+      "id": "banner_bg",
+      "label": "Background"
+    },
+	{
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Image"
+    },
+	{
+      "type": "text",
+      "id": "banner_title",
+      "label": "Heading"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn",
+      "label": "Button Text"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    }
+],
+ "presets": [{
+    "name": "Banner 2",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

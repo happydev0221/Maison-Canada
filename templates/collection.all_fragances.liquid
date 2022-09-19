@@ -1,0 +1,171 @@
+<div class="block-banner">
+  <div class="inner">
+
+    <img src="{{collection.image.src | img_url: '2048x' }}">
+  </div>
+</div>
+<div class="container container-smaller">
+  <div class="block-breadcrumb">
+    <ul id="breadcrumb">
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" title="Go to the home page" itemprop="url"> <span itemprop="title">Home</span> </a>
+      </li>
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <strong itemprop="title">{{collection.title}}</strong></li>
+      </ul>
+    </div>
+  </div>
+  <main class="container center-content">
+    <div class="page messages">
+      <div data-placeholder="messages"></div>
+    </div>
+    <div class="col-full">
+      <div class="page-title">
+        <h1>{{collection.title}}
+          <span>{{ collection.metafields.global.description_tag }}</span>
+        </h1>
+      </div>
+    </div>
+    <div class="col-left">
+      <div>
+        <div class="block filter block-filters">
+          <div class="block-content filter-content">
+            <div class="inner">
+              <div id="filters">
+                <div role="heading" class="block-subtitle filter-subtitle heading"> Filter by </div>
+                <div class="filter-options">
+                        <div role="heading" class="filter-options-title filter">
+                          <strong>Fragrance Type</strong>
+                        </div>
+                        <div class="filter-options-content">
+                          <ul>
+                           <li class="item option"><a href="#" data-filter="aroma">Aroma</a></li>
+                           <li class="item option"><a href="#" data-filter="floral">Floral</a></li>
+                           <li class="item option"><a href="#" data-filter="fresh">Fresh</a></li>
+                           <li class="item option"><a href="#" data-filter="fruity">Fruity</a></li>
+                           <li class="item option"><a href="#" data-filter="functional">Functional</a></li>
+                           <li class="item option"><a href="#" data-filter="pure">Pure</a></li>
+                           <li class="item option"><a href="#" data-filter="spicy">Spicy &amp; Woody</a></li>
+                           <li class="item option"><a href="#" data-filter="sweet">Sweet</a></li>
+                         </ul>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+         <div class="col-right">
+
+          <ul class="products wrapper grid products-grid category-products filter-sections">
+            {% for collection in collections %}
+            {% assign type = collection.image.alt %}
+            {% if collection.image and type == 'aroma' or type == 'fruity' or type == 'pure' or type == 'spicy' or type == 'sweet' or type == 'functional' or type == 'fresh' or type == 'floral'%}
+            {% case type %}
+            {% when 'floral' %}
+            {% assign bg_color = '#FFB0C0' %}
+            {% when 'aroma' %}
+            {% assign bg_color = '#F4BD02' %}
+            {% when 'fresh' %}
+            {% assign bg_color = '#87DADC' %}
+            {% when 'fruity' %}
+            {% assign bg_color = '#FF9700' %}
+            {% when 'functional' %}
+            {% assign bg_color = '#A5A5A5' %}
+            {% when 'pure' %}
+            {% assign bg_color = '#ADD8F7' %}
+            {% when 'spicy' %}
+            {% assign bg_color = '#976A5C' %}
+            {% when 'sweet' %}
+            {% assign bg_color = '#FB0431' %}
+            {% else %}
+            {% assign bg_color = '#FFB0C0' %}
+            {% endcase %}
+            
+            <li class="product-perfume {{type}}">
+              <a href="{{collection.url}}"> 
+                <img src="{{ collection.image.src | img_url: '260x260', crop:'center' }}" title="{{collection.title}}" alt="{{collection.title}}">
+                <span class="block-title" style="background-color:{{bg_color}}">
+                 {{collection.title}}
+               </span>
+             </a>
+           </li>
+
+           {% endif %}
+           {% endfor %}
+         </ul>
+       </div>
+     </main>
+
+     <style>
+      .filter-sections li {
+        opacity: 0;
+        display: none;
+        transition: all 500s ease;
+      }
+
+      .view {
+        display: block !important;
+        opacity: 1 !important;
+        transform: scale(1) rotate(0deg);
+        animation: selected 300ms 1 ease-in-out;
+      }
+    </style>
+
+    <script>
+
+      var items = document.querySelectorAll('.filter-sections li');
+      animate(items);
+
+      each('.filter-options-content a', function(el) {
+        el.addEventListener('click', function(e) {
+          e.preventDefault();
+          filterLinks(el);
+        });
+      });
+
+      function filterLinks(element) {
+        var el = element.dataset.filter,
+        linksTolowerCase = el.toLowerCase();
+        if (el === 'all') {
+          each('.view', function(e) {
+            e.classList.remove('view');
+          });
+          animate(items);
+        } else {
+          each('.view', function(e) {
+            e.classList.remove('view');
+          });
+        }
+        animate(document.querySelectorAll('.' + linksTolowerCase));
+      };
+
+      function each(el, callback) {
+        var allDivs = document.querySelectorAll(el),
+        alltoArr = Array.prototype.slice.call(allDivs);
+        Array.prototype.forEach.call(alltoArr, function(selector, index) {
+          if (callback) return callback(selector);
+        });
+      };
+
+      function animate(item) {
+        (function show(counter) {
+          if(item.length > 0){
+            setTimeout(function() {
+              item[counter].classList.add('view');
+              counter++;
+              if (counter < item.length) show(counter);
+            },50);
+          }
+          else{
+     // alert("Test: There are no fragrances");
+     each('.view', function(e) {
+      e.classList.remove('view');
+    });
+     animate(items);
+   }
+ })(0);
+};
+
+</script>

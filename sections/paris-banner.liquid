@@ -1,0 +1,76 @@
+<div class="block-lamp style-primary " id=""> <img src="{{section.settings.banner_img | img_url:'master'}}" width="935" height="520">
+    <div class="inner">
+        <div class="contents keep-{{section.id}} top-right"> <span class="block-title">{{section.settings.banner_title}} <br></span>
+            <p class="block-subtitle">{{section.settings.banner_content}}
+                <br>
+                <br>
+            </p>
+            <div class="buttons"><a href="{{section.settings.banner_link}}" class="btn ">{{section.settings.banner_btn}} </a> </div>
+        </div>
+    </div>
+</div>
+
+<style>
+  
+  .keep-{{section.id}}{
+  
+    padding: {{section.settings.padding}}px !important
+  }
+  
+  
+</style>
+
+{% schema %}
+   {
+    "name": "Banner",
+    "settings": [
+	{
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Image"
+    },
+	{
+      "type": "text",
+      "id": "banner_title",
+      "label": "Heading"
+    },
+	{
+      "type": "text",
+      "id": "banner_content",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn",
+      "label": "Button Text"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    },
+	{
+    "type":   "range",
+    "id":     "padding",
+    "min":       60,
+    "max":       120,
+    "step":      10,
+    "unit":      "px",
+    "label":     "Padding",
+    "default":   60
+	}
+],
+ "presets": [{
+    "name": "Banner",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

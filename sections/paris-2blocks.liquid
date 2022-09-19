@@ -1,0 +1,183 @@
+<div class="home-line container paris-bg {% if section.settings.swap_p %} swap_position_p {% endif %}">
+    <div class="block-home-secondary style-primary" style="background-image: url('{{section.settings.banner_img | img_url: 'master'}}')">
+      <img src="{{section.settings.banner_img | img_url: 'master'}}" class="visible-mobile" width="821" height="329" title="{{shop.name}}" alt="{{shop.name}}">
+        <div class="inner">
+            <div class="contents {{section.settings.align_box1}}" id="bblock_{{section.id}}"> 
+              <span class="title"> {{section.settings.banner_title}} </span>
+               {{section.settings.banner_content}}
+              <a href="{{section.settings.banner_link}} " class="btn btn-full"> {{section.settings.banner_btn}}</a>
+          </div>
+        </div>
+    </div>
+    <div class="block-help block-help_{{section.id}}">
+        <div class="contents"> 
+          <span class="block-title custom-title"> {{section.settings.banner_title2}} </span>
+            {{section.settings.banner_content2}} 
+            <div class="buttons">
+              {%if section.settings.banner_btn2 != blank%}
+              <a href="{{section.settings.banner_link2}}" class="btn btn-full-white">{{section.settings.banner_btn2}}</a> 
+              {%endif%}
+              {%if section.settings.banner_btn3 != blank%}
+              <a href="{{section.settings.banner_link3}}" class="btn btn-full">{{section.settings.banner_btn3}}</a>
+          	{%endif%}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+  #bblock_{{section.id}} span{
+    
+    color:{{section.settings.color_title}};  
+  }
+  
+  #bblock_{{section.id}} p{
+    
+    color:{{section.settings.color_banner}};  
+  }
+  
+  
+  .block-help_{{section.id}}  {
+    background: {{section.settings.banner_color}};
+}  
+  
+  @media screen and (max-width: 768px) {
+  #bblock_{{section.id}} span{
+    
+    color:#081f2c;  
+  }
+  
+   #bblock_{{section.id}} p{
+    
+    color:#081f2c;  
+  }
+}
+</style>
+
+{% schema %}
+   {
+    "name": "Home Line",
+    "settings": [
+	 {
+      "type": "header",
+	"content": "Box1"
+    },
+ 	{
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Image"
+    },
+	{
+      "type": "text",
+      "id": "banner_title",
+      "label": "Heading"
+    },
+	{
+      "type": "color",
+      "id": "color_title",
+      "label": "Heading Color",
+	  "default": "#081f2c"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content",
+      "label": "Content"
+    },
+	{
+      "type": "color",
+      "id": "color_banner",
+      "label": "Content Color",
+	  "default": "#081f2c"
+    },
+	{
+   "type":      "select",
+   "id":        "align_box1",
+   "label":     "Alignment",
+   "options": [
+     {
+       "value": "left",
+       "label": "Left"
+     },
+     {
+       "value": "center",
+       "label": "Center"
+     },
+	{
+       "value": "right",
+       "label": "Right"
+     }
+   ],
+   "default":   "right"
+	},
+	{
+      "type": "text",
+      "id": "banner_btn",
+      "label": "Button Text"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    },
+
+ 	{
+      "type": "header",
+	"content": "Box2"
+    },
+	{
+      "type": "color",
+      "id": "banner_color",
+      "label": "Color Style",
+	  "default": "#E1B77D"
+    },
+	{
+      "type": "text",
+      "id": "banner_title2",
+      "label": "Heading"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content2",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn2",
+      "label": "Button 1 Text"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn3",
+      "label": "Button 2 Text"
+    },
+	{
+      "type": "url",
+      "id": "banner_link2",
+      "label": "Link Button 1"
+    },
+	{
+      "type": "url",
+      "id": "banner_link3",
+      "label": "Link Button 1"
+    },
+	{
+	  "type": "checkbox",
+	  "id": "swap_p",
+	  "label": "Swap block position"
+	}
+],
+ "presets": [{
+    "name": "Home Line",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

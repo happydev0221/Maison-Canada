@@ -1,0 +1,26 @@
+<div class="container main content main-wrapper">
+  <div class="ten offset-by-three columns page clearfix">
+    <h1 class="center">
+      {{ page.title }}
+    </h1>
+    <div class="feature_divider"></div>
+
+    <div>
+      {% include 'page-multi-column', content: page.content %}
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Our History",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

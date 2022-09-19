@@ -1,0 +1,88 @@
+<div class="container container-smaller">
+  <div class="block-breadcrumb">
+    <ul id="breadcrumb">
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" title="Go to the home page" itemprop="url"> <span itemprop="title">Home</span> </a>
+      </li>
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <strong itemprop="title">{{collection.title}}</strong></li>
+      </ul>
+    </div>
+  </div>
+  <main class="container center-content">
+    <a id="contentarea"></a>
+    <div class="page messages">
+      <div data-placeholder="messages"></div>
+    </div>
+    <div class="col-full">
+      <div class="page-title">
+        <h1>{{collection.title}}
+         <!-- <span>{{ collection.description }}</span>-->
+       </h1>
+     </div>
+   </div>
+   
+   {% paginate collection.products by 12 %}  
+   <div class="col-full">
+    <div id="amasty-shopby-product-list">
+      
+      {% if collection.products.size == 0 %}
+      <div class="section clearfix">
+        <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+      </div>
+      
+      {%else%}
+      
+      <ul class="products wrapper grid products-grid category-products amscroll-page">
+        
+        {% for product in collection.products %}
+        <script type="application/json" class="bold-product-json">{{ product | json }}</script>
+       <li class="product">
+           <div class="inner">
+              {% unless product.available %}
+             <span class="new">
+             {% if product.tags contains 'coming soon' %}
+				Coming Soon
+             {%else%}
+              {{settings.soldout_text}}
+  			{% endif %}
+             </span>
+             {%endunless%}
+            <div class="image">
+              <a href="{{ product.url | within: collection }}">
+                <img src="{{product.featured_image | product_img_url: 'grande' }}">
+              </a>
+            </div>
+            <div class="details">
+             {%if settings.display_vendor_collection%}<div class="tag-wrapper">{{product.vendor}}</div>{%endif%} 
+             <a href="{{ product.url | within: collection }}"> {{product.title}}</a>
+             <div class="prices"><span class="price"><span class="money" data-product-id="{{ product.id }}">{{ product.price_min | money }}</span></span></div>
+           </div>
+           {%if product.available%}
+           <form method="post" action="/cart/add" class="product_form">
+            <input type="hidden" name="form_type" value="product">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" name="add" class="add_to_cart action primary tocart add-to-cart" data-label='Add to Cart'><span class="text">Add to cart</span></button>
+
+          </form>
+           {%endif%}
+        </div>
+      </li>
+      {%endfor%}
+      
+    </ul>
+    
+    {%endif%}
+    
+  </div>
+</div>
+    
+{% include 'pagination' %}
+
+{%endpaginate%}
+
+</main>
+
+{%include 'paris-suscribe'%}

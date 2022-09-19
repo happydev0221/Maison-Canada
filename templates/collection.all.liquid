@@ -1,0 +1,140 @@
+{% case collection.image.alt %}
+{% when 'floral' %}
+{% assign maincollect = collections['floral'] %}
+{% assign color = '#FFB0C0' %}
+{% when 'aroma' %}
+{% assign maincollect = collections['aroma'] %}
+{% assign color = '#F4BD02' %}
+{% when 'fresh' %}
+{% assign maincollect = collections['fresh'] %}
+{% assign color = '#87DADC' %}
+{% when 'fruity' %}
+{% assign maincollect = collections['fruity'] %}
+{% assign color = '#FF9700' %}
+{% when 'functional' %}
+{% assign maincollect = collections['functional'] %}
+{% assign color = '#A5A5A5' %}
+{% when 'pure' %}
+{% assign maincollect = collections['pure'] %}
+{% assign color = '#ADD8F7' %}
+{% when 'spicy' %}
+{% assign maincollect = collections['spicy-woody'] %}
+{% assign color = '#976A5C' %}
+{% when 'sweet' %}
+{% assign maincollect = collections['sweet'] %}
+{% assign color = '#FB0431' %}
+{% else %}
+{% assign maincollect = collection %}
+{% assign color = '#FFB0C0' %}
+{% endcase %}
+
+
+<div class="container container-smaller">
+  <div class="block-breadcrumb">
+    <ul id="breadcrumb">
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" title="Go to the home page" itemprop="url"> <span itemprop="title">Home</span> </a>
+      </li>
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <a href="/" title="" itemprop="url"> <span itemprop="title">Fragrance Type</span> </a>
+      </li>
+      <li  itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+        <strong itemprop="title">{{collection.title}}</strong></li>
+      </ul>
+    </div>
+  </div>
+  <main class="container center-content">
+    <a id="contentarea"></a>
+    <div class="page messages">
+      <div data-placeholder="messages"></div>
+    </div>
+    <div class="col-full">
+      <div class="page-title">
+        <h1>{{collection.title}}
+          <span>{{ collection.metafields.global.description_tag }}</span>
+        </h1>
+      </div>
+    </div>
+    <div class="col-full">
+      <div class="block-perfume-card">
+        <div class="container container-smaller">
+          <div class="inner" style="background-color: {{color}}">
+            <div class="contents">
+              {{collection.description}}
+            </div>
+            <div class="image" style="background-image: url({{collection.image.src | img_url: '1024x' }})"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% paginate collection.products by 50 %}  
+    <div class="col-full">
+
+      <div id="amasty-shopby-product-list">
+
+        {% if collection.products.size == 0 %}
+        <div class="section clearfix">
+          <p class="quote">{{ 'collections.general.no_matches' | t }}</p>
+        </div>
+
+        {%else%}
+        <ul class="products wrapper grid products-grid category-products amscroll-page">
+
+          {% for product in collection.products %}
+          <script type="application/json" class="bold-product-json">{{ product | json }}</script>
+
+          <li class="product">
+           <div class="inner">
+            {% unless product.available %}
+             <span class="new">
+             {% if product.tags contains 'coming soon' %}
+				Coming Soon
+             {%else%}
+              {{settings.soldout_text}}
+  			{% endif %}
+             </span>
+             {%endunless%}
+            <div class="image">
+              <a href="{{ product.url | within: collection }}">
+                <img src="{{product.featured_image | product_img_url: 'grande' }}">
+              </a>
+            </div>
+            <div class="details">
+             {%if settings.display_vendor_collection%}<div class="tag-wrapper">{{product.vendor}}</div>{%endif%} 
+             <a href="{{ product.url | within: collection }}"> {{product.title}}</a>
+              <div class="prices"><span class="price"><span class="money" data-product-id="{{ product.id }}">{{ product.price_min | money }}</span></span></div>
+           </div>
+           {%if product.available%}
+           <form method="post" action="/cart/add" class="product_form">
+            <input type="hidden" name="form_type" value="product">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" name="add" class="add_to_cart action primary tocart add-to-cart" data-label='Add to Cart'><span class="text">Add to cart</span></button>
+
+          </form>
+           {%endif%}
+        </div>
+      </li>
+      {%endfor%}
+    </ul>
+
+    {%endif%}
+
+    <div class="toolbar toolbar-products">
+      <div class="field limiter">
+        <label class="label" for="limiter"> <span>Afficher</span> </label>
+        <div class="control">
+          <select id="limiter" class="limiter-options" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+            <option value="{{collection.url}}">12</option>
+            <option value="{{collection.url}}?view=all" selected="selected">all</option>
+          </select>
+        </div> <span class="limiter-text">par page</span></div>
+      </div>
+    </div>
+  </div>
+  {% include 'pagination' %}
+  {%endpaginate%}
+</main>
+{%include 'paris-suscribe'%}

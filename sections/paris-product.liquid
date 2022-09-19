@@ -1,0 +1,72 @@
+<div class="block-news bg-block-pattern " id="">
+    <div class="container container-smaller paris-bg">
+        <div class="image"> <img src="{{section.settings.banner_img | img_url:'master'}}" width="593" height="330"></div>
+        <div class="contents">
+          <span class="title">{{section.settings.banner_title}}</span>
+          <strong class="baseline">{{section.settings.banner_title2}} </strong>
+          {{section.settings.banner_content}}
+          <a href="{{section.settings.banner_link}}" class="btn">{{section.settings.banner_btn}}</a></div>
+    </div>
+</div>
+
+<style>
+  
+  .bg-block-pattern {
+    background: #F5FBFF url('{{section.settings.banner_bg| img_url:'master'}}'); 
+}
+  
+</style>
+{% schema %}
+   {
+    "name": "Product",
+    "settings": [
+	{
+      "type": "image_picker",
+      "id": "banner_bg",
+      "label": "Background"
+    },
+	{
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Image"
+    },
+	{
+      "type": "text",
+      "id": "banner_title",
+      "label": "Heading"
+    },
+	{
+      "type": "text",
+      "id": "banner_title2",
+      "label": "Heading 2"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn",
+      "label": "Button Text"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    }
+],
+ "presets": [{
+    "name": "Product",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

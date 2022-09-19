@@ -1,0 +1,116 @@
+{% assign collection = collections[section.settings.frontpage_collection] %}
+{% assign products = collection.products %}
+<div class="block-products">
+    <div class="container paris-bg">
+        <div class="inner"><span class="block-title">{{section.settings.title}}</span>
+            <div class="products-grid">
+              <div>
+                <li class="product-special " id="">
+                    <div class="inner">
+                        <div>
+                            <div class="contents" style=" background-color:{{settings.box_color}};">
+                              <span class="block-title"><b>{{settings.box_heading}}</b></span>
+                                <p class="block-subtitle">{{settings.box_subheading}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+           {% if products.length > 0 %}
+            
+            {% for product in products limit: limit %}    
+            <div>
+       <li class="product">
+           <div class="inner">
+             {% unless product.available %}
+             <span class="new">
+             {% if current_tags contains 'coming soon' %}
+				Comming Soon
+             {%else%}
+              {{settings.soldout_text}}
+  			{% endif %}
+             </span>
+             {%endunless%}
+            <div class="image">
+              <a href="{{ product.url | within: collection }}">
+                <img src="{{product.featured_image | product_img_url: 'grande' }}">
+              </a>
+            </div>
+            <div class="details">
+             {%if settings.display_vendor_collection%}<div class="tag-wrapper">{{product.vendor}}</div>{%endif%} 
+             <a href="{{ product.url | within: collection }}"> {{product.title}}</a>
+             <div class="prices"><span class="price"><span class="money" data-product-id="{{ product.id }}">{{ product.price_min | money }}</span></span></div>
+           </div>
+           {%if product.available%}
+           <form method="post" action="/cart/add" class="product_form">
+            <input type="hidden" name="form_type" value="product">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" name="add" class="add_to_cart action primary tocart add-to-cart" data-label='Add to Cart'><span class="text">Add to cart</span></button>
+
+          </form>
+           {%endif%}
+        </div>
+      </li>
+          </div>
+          {% endfor %}
+          {% else %}
+          
+          {% for i in (1..5) %}
+          <div>
+             <li class="product">
+                <div class="inner">
+                    <div class="image">
+                        <a href="#" tabindex="0">{% capture num %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+                        {{ 'collection-' | append: num | placeholder_svg_tag: 'placeholder-svg placeholder-svg--product' }}</a>
+                    </div>
+                    <div class="details">
+                        <div class="tag-wrapper"></div> <a href="#" class="name" tabindex="0">Demo Product</a>
+                        <div class="prices"> <span class="price"> 100,00 €</span></div>
+                    </div>
+                    <form>
+                        <button type="submit" class="add-to-cart btn-full"><span> Add to cart</span></button>
+                    </form>
+                </div>
+            </li>
+        </div>    
+        {% endfor %}
+
+        {%endif%}
+    </div>
+</div>
+</div>
+</div>
+
+{% schema %}
+{
+    "name": "Featured Products",
+    "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+  },
+  {
+      "type": "collection",
+      "id": "frontpage_collection",
+      "label": "Collection"
+  }
+  
+  ],
+  "presets": [{
+  "name": "Featured Products",
+  "category": "Paris",
+  "settings": {
+}
+}]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,89 @@
+<div class="block-home style-white " style="background-image: url('{{section.settings.banner_img | img_url: 'master'}}');" id="">
+  <div class="multi_touch_container_p">
+    <a href="{{ section.settings.banner_link1 }}"></a>
+    <a href="{{ section.settings.banner_link2 }}"></a>
+    <a href="{{ section.settings.banner_link3 }}"></a>
+  </div>
+  <div class="container paris-bg"><img src="{{section.settings.banner_imgb | img_url: 'master'}}" class="visible-mobile" width="1920" height="470">
+    <div class="inner right ">
+      <div class="contents right circle">
+        <div class="bg" style="background-color: {{section.settings.banner_color}}"></div> <span class="block-title">{{section.settings.banner_head}}</span>
+        {{section.settings.banner_content}}<a href="{{section.settings.banner_link}}" class="btn btn-white">{{section.settings.banner_btn}} </a></div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Main Banner",
+    "settings": [
+	 {
+      "type": "image_picker",
+      "id": "banner_img",
+      "label": "Background Desk"
+    },
+ 	{
+      "type": "image_picker",
+      "id": "banner_imgb",
+      "label": "Background Mobile"
+    },
+ 	{
+      "type": "header",
+	"content": "Box"
+    },
+	{
+      "type": "color",
+      "id": "banner_color",
+      "label": "Color Style 1",
+	  "default": "#eb968f"
+    },
+	{
+      "type": "text",
+      "id": "banner_head",
+      "label": "Heading"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn",
+      "label": "Button Text"
+    },
+	{
+      "type": "url",
+      "id": "banner_link",
+      "label": "Link"
+    },
+	{
+      "type": "url",
+      "id": "banner_link1",
+      "label": "Link1"
+    },
+	{
+      "type": "url",
+      "id": "banner_link2",
+      "label": "Link2"
+    },
+	{
+      "type": "url",
+      "id": "banner_link3",
+      "label": "Link3"
+    }
+	],
+ 	"presets": [{
+    "name": "Main Banner",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

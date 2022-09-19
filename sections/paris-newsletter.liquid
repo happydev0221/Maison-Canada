@@ -1,0 +1,51 @@
+<div class="block-newsletter">
+    <div class="container container-smaller paris-bg">
+        <div class="inner"><span class="title"> {{section.settings.banner_title}}</span>
+            {{section.settings.banner_content}}
+<div class="klaviyo-form-Vk3WQ9"></div>
+            <p class="legals">{{section.settings.banner_content2}}</p>
+          
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+   {
+    "name": "Newsletter",
+    "settings": [
+	{
+      "type": "text",
+      "id": "banner_title",
+      "label": "Heading"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content",
+      "label": "Content"
+    },
+	{
+      "type": "text",
+      "id": "banner_btn",
+      "label": "Button Text"
+    },
+	{
+      "type": "richtext",
+      "id": "banner_content2",
+      "label": "Small text"
+    }
+],
+ "presets": [{
+    "name": "Newsletter",
+    "category": "Paris",
+    "settings": {
+    }
+  }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
