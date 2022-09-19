@@ -5,8 +5,8 @@
       "out_of_stock": "Out of stock",
       "view_store_info": "View store information",
       "check_other_stores": "Check availability at other stores",
-      "available_for_pick_up_at_html": "Pickup available at <b>{{ location_name }}<\/b>",
-      "unavailable_for_pick_up_at_html": "Pickup currently unavailable at <b>{{ location_name }}<\/b>",
+      "available_for_pick_up_at_html": "Pickup available at <b>{{ location_name }}</b>",
+      "unavailable_for_pick_up_at_html": "Pickup currently unavailable at <b>{{ location_name }}</b>",
       "available_for_pick_up_at_time_html": "Pickup available, {{ pick_up_time }}",
       "unavailable_for_pick_up_at_time_html": "Pickup currently unavailable",
       "kilometers": "km",
@@ -20,7 +20,7 @@
     "404": {
       "title": "Page Not Found",
       "subtext": "We're sorry, but the page you requested could not be found.",
-      "continue_shopping_html": "Try searching or <a href=\"{{ continue_link }}\">continue shopping &rarr;<\/a>"
+      "continue_shopping_html": "Try searching or <a href=\"{{ continue_link }}\">continue shopping &rarr;</a>"
     },
     "meta": {
       "tagged_html": "Tagged \"{{ tags }}\"",
@@ -36,13 +36,13 @@
       "signup_form_heading": "Find out when we open",
       "signup_form_submit": "Submit",
       "signup_form_success": "We will send you an email right before we open!",
-      "admin_link_html": "Are you the store owner? <a href=\"\/admin\" class=\"text-link\">Log in here<\/a>",
+      "admin_link_html": "Are you the store owner? <a href=\"/admin\" class=\"text-link\">Log in here</a>",
       "password_link": "Enter using password",
-      "powered_by_shopify_html": "This shop will be powered by <a href=\"https:\/\/www.shopify.com\" target=\"_blank\" rel=\"nofollow\">Shopify<\/a>"
+      "powered_by_shopify_html": "This shop will be powered by <a href=\"https://www.shopify.com\" target=\"_blank\" rel=\"nofollow\">Shopify</a>"
     },
     "forms": {
       "post_error": "Not all the fields have been filled out correctly",
-      "post_field_error_html": "The <strong>{{ field }}<\/strong> {{ error }}"
+      "post_field_error_html": "The <strong>{{ field }}</strong> {{ error }}"
     },
     "newsletter_form": {
       "title": "News & Updates",
@@ -104,7 +104,7 @@
       "next_article_html": "Next",
       "tags": "Tags",
       "author": "Author",
-      "comment_meta_html": "<strong>{{ author }}<\/strong> on <strong><time datetime=\"{{ date }}\">{{ date }}<\/time><\/strong>"
+      "comment_meta_html": "<strong>{{ author }}</strong> on <strong><time datetime=\"{{ date }}\">{{ date }}</time></strong>"
     },
     "counts": {
       "comments_with_count": {
@@ -205,7 +205,7 @@
     },
     "item": {
       "price": {
-        "price_per_unit_html": "{{ total_quantity }} | {{ unit_price }} \/ {{ unit_measure }}"
+        "price_per_unit_html": "{{ total_quantity }} | {{ unit_price }} / {{ unit_measure }}"
       }
     }
   },
@@ -255,7 +255,7 @@
       "city": "City",
       "country": "Country",
       "province": "Province",
-      "zip": "Postal\/Zip Code",
+      "zip": "Postal/Zip Code",
       "phone": "Phone",
       "set_default": "Set as default address",
       "add": "Add Address",
@@ -376,12 +376,12 @@
       "price_per_item": "Price per item",
       "item": "Item",
       "uploaded_file": "uploaded file",
-      "continue_browsing_html": "There are no items in your cart. <a href=\"\/collections\/all\">Continue Shopping &rarr;<\/a>",
+      "continue_browsing_html": "There are no items in your cart. <a href=\"/collections/all\">Continue Shopping &rarr;</a>",
       "continue_shopping_link_html": "Continue Shopping &rarr;",
       "tax_and_shipping": "Taxes and shipping calculated at checkout",
-      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping<\/a> calculated at checkout",
+      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
       "taxes_included_but_shipping_at_checkout": "Tax included and shipping calculated at checkout",
-      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping<\/a> calculated at checkout.",
+      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
       "note": "Order Notes",
       "agree_to_terms_warning": "You must agree with the terms and conditions to checkout.",
       "or": "or",
@@ -394,7 +394,7 @@
       "estimated_shipping": "estimated shipping",
       "country": "Country",
       "province": "Province",
-      "zip_code": "Zip\/Postal Code",
+      "zip_code": "Zip/Postal Code",
       "heading": "Shipping rates calculator",
       "submit_button_label": "Calculate shipping rates",
       "submit_button_label_disabled": "Calculating...",
