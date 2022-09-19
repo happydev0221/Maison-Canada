@@ -27,10 +27,66 @@
 {%- endif -%}
 
 <div class="footer">
+  <div id="reinsurance">
+    <div class="container paris-bg">
+      <ul>
+          <li>
+              <div class="icon-wrapper">
+                  <svg class="icon">
+                      <use xlink:href="#ico-reinsurance-shipping"></use>
+                  </svg>
+              </div> <strong class="title">{{section.settings.icon_text}}</strong>
+              {{section.settings.icon_small}}
+          </li>
+          <li>
+              <div class="icon-wrapper">
+                  <svg class="icon">
+                      <use xlink:href="#ico-reinsurance-payment"></use>
+                  </svg>
+              </div> <strong class="title">{{section.settings.icon_text2}}</strong>
+              {{section.settings.icon_small2}}
+          </li>
+          <li>
+              <div class="icon-wrapper">
+                  <svg class="icon">
+                      <use xlink:href="#ico-reinsurance-sav"></use>
+                  </svg>
+              </div> <strong class="title">{{section.settings.icon_text3}}</strong>
+              {{section.settings.icon_small3}}
+          </li>
+          <li>
+              <div class="icon-wrapper">
+                  <svg class="icon">
+                      <use xlink:href="#ico-reinsurance-satisfaction"></use>
+                  </svg>
+              </div> <strong class="title">{{section.settings.icon_text4}}</strong>
+              {{section.settings.icon_small4}}
+          </li>
+      </ul>
+    </div>
+  </div>
   <section class="section">
     <div class="container">
+      {% if section.settings.footer_logo != blank %}
+        <div class="one-fifth columns medium-down--one-whole">
+          {% render 'image-element',
+                  image: section.settings.footer_logo,
+                  alt: "Footer logo"
+          %}
+        </div>
+      {% endif %}
+
+      {% if section.settings.footer_logo_second != blank %}
+        <div class="one-fifth columns medium-down--one-whole">
+          {% render 'image-element',
+                  image: section.settings.footer_logo_second
+          %}
+        </div>
+      {% endif %}
+
+      {% comment %}
       {% if section.settings.footer_social_icons and social_icons == true or section.settings.footer_content_left != blank %}
-        <div class="three-sevenths columns medium-down--one-whole">
+        <div class="one-fifth columns medium-down--one-whole">
           {% if section.settings.footer_social_icons and social_icons == true %}
             <h6 class="footer__title">{{ 'layout.general.social' | t }}</h6>
 
@@ -44,30 +100,53 @@
           {% endif %}
         </div>
       {% endif %}
+      {% endcomment %}
 
-      <div class="four-sevenths columns medium-down--one-whole">
+      <div class="one-fifth columns medium-down--one-whole">
         {% if section.settings.footer_linklist_1 != blank %}
+          <span class="title">{{section.settings.fo_text1}}</span>
           <ul class="footer_menu">
             {% for link in linklists[section.settings.footer_linklist_1].links %}
               <li>
                 <a href="{{ link.url }}">{{ link.title }}</a>
               </li>
-
-              {% for sub_link in link.links %}
-                <li>
-                  <a href="{{ sub_link.url }}">{{ sub_link.title }}</a>
-                </li>
-
-                {% for sub_sub_link in sub_link.links %}
-                  <li>
-                    <a href="{{ sub_sub_link.url }}">{{ sub_sub_link.title }}</a>
-                  </li>
-                {% endfor %}
-              {% endfor %}
             {% endfor %}
           </ul>
         {% endif %}
+      </div>
 
+      <div class="one-fifth columns medium-down--one-whole">
+        {% if section.settings.footer_linklist_2 != blank %}
+          <span class="title">{{section.settings.fo_text2}}</span>
+          <ul class="footer_menu">
+            {% for link in linklists[section.settings.footer_linklist_2].links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="one-fifth columns medium-down--one-whole">
+        {% if section.settings.footer_linklist_3 != blank %}
+          <span class="title">{{section.settings.fo_text3}}</span>
+          <ul class="footer_menu">
+            {% for link in linklists[section.settings.footer_linklist_3].links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if social_icons %}
+          <div class="js-social-icons">
+            {% render 'social-icons' %}
+          </div>
+        {% endif %}
+      </div>
+
+        {% comment %}
         {% if section.settings.footer_newsletter %}
           {% if section.settings.richtext != blank %}
             {{ section.settings.richtext }}
@@ -86,6 +165,9 @@
 
         {{ section.settings.custom_html }}
 
+        {% endcomment %}
+
+      <div>
         <div class="footer__info">
           {% render 'localization-switcher',
                   additional_classes: 'footer-menu__disclosure',
@@ -110,6 +192,20 @@
         {% endif %}
       </div>
     </div>
+
+    <div id="legals">	
+      <ul>	
+          <li>{{ section.settings.legals }}</li>	
+            
+          {% if section.settings.footer_linklist_4 != blank %}	
+          {% for link in linklists[section.settings.footer_linklist_4].links %}	
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>	
+          {% endfor %}	
+          {% endif %}	
+            
+      </ul>	
+    </div>
+
   </section>
 </div>
 
@@ -119,10 +215,106 @@
     "class": "shopify-section--footer",
     "settings": [
       {
-        "type": "link_list",
-        "id": "footer_linklist_1",
-        "label": "Menu",
-        "info": "This menu won't show drop-down items"
+        "type": "header",
+        "content": "Icons"
+      },
+      {
+        "type": "text",
+        "id": "icon_text",
+      "label":"Text 1"
+      },
+      {
+        "type": "richtext",
+        "id": "icon_small",
+      "label":"Content 1"
+      },
+      {
+        "type": "text",
+        "id": "icon_text2",
+      "label":"Text 2"
+      },
+      {
+        "type": "richtext",
+        "id": "icon_small2",
+      "label":"Content 2"
+      },
+      {
+        "type": "text",
+        "id": "icon_text3",
+      "label":"Text 3"
+      },
+      {
+        "type": "richtext",
+        "id": "icon_small3",
+      "label":"Content 3"
+      },
+      {
+        "type": "text",
+        "id": "icon_text4",
+      "label":"Text 4"
+      },
+      {
+        "type": "richtext",
+        "id": "icon_small4",
+      "label":"Content 4"
+      },
+      {	
+        "type": "header",	
+        "content": "Footer logo"	
+      },
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Footer logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "footer_logo_second",
+        "label": "Footer logo second"
+      },
+      {	
+        "type": "header",	
+        "content": "Menu Links"	
+      },	
+      {	
+        "type": "link_list",	
+        "id": "footer_linklist_1",	
+        "label": "Menu 1"	
+      },	
+        {	
+        "type": "text",	
+        "id": "fo_text1",	
+      "label":"Menu Heading 1"	
+      },	
+      {	
+          "type": "link_list",	
+          "id": "footer_linklist_2",	
+          "label": "Menu 2"	
+        },	
+          {	
+          "type": "text",	
+          "id": "fo_text2",	
+        "label":"Menu Heading 2"	
+        },	
+      {	
+          "type": "link_list",	
+          "id": "footer_linklist_3",	
+          "label": "Menu 3"	
+        },	
+          {	
+          "type": "text",	
+          "id": "fo_text3",	
+        "label":"Menu Heading 3"	
+        },	
+      {	
+          "type": "link_list",	
+          "id": "footer_linklist_4",	
+          "label": "Menu 4"	
+        },	
+      {	
+        "type": "text",	
+        "id": "legals",	
+        "label": "Legal Text"	
       },
       {
         "type": "checkbox",
