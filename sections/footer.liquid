@@ -67,22 +67,13 @@
   </div>
   <section class="section">
     <div class="container">
-      {% if section.settings.footer_logo != blank %}
-        <div class="one-fifth columns medium-down--one-whole">
-          {% render 'image-element',
-                  image: section.settings.footer_logo,
-                  alt: "Footer logo"
-          %}
-        </div>
-      {% endif %}
+      <div class="one-fifth columns medium-down--one-whole">
+        <img class="footer-logo" src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/logo-white.svg?17687" width="220" height="128">
+      </div>
 
-      {% if section.settings.footer_logo_second != blank %}
-        <div class="one-fifth columns medium-down--one-whole">
-          {% render 'image-element',
-                  image: section.settings.footer_logo_second
-          %}
-        </div>
-      {% endif %}
+      <div class="one-fifth columns medium-down--one-whole">
+        <img src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/epv-label.png?17687" width="179" height="83">
+      </div>
 
       {% comment %}
       {% if section.settings.footer_social_icons and social_icons == true or section.settings.footer_content_left != blank %}
@@ -257,20 +248,6 @@
         "type": "richtext",
         "id": "icon_small4",
       "label":"Content 4"
-      },
-      {	
-        "type": "header",	
-        "content": "Footer logo"	
-      },
-      {
-        "type": "image_picker",
-        "id": "footer_logo",
-        "label": "Footer logo"
-      },
-      {
-        "type": "image_picker",
-        "id": "footer_logo_second",
-        "label": "Footer logo second"
       },
       {	
         "type": "header",	
