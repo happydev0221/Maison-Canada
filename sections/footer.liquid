@@ -156,7 +156,6 @@
 
         {{ section.settings.custom_html }}
 
-        {% endcomment %}
 
       <div>
         <div class="footer__info">
@@ -182,6 +181,8 @@
           </div>
         {% endif %}
       </div>
+        {% endcomment %}
+
     </div>
 
     <div id="legals">	
@@ -198,6 +199,10 @@
     </div>
 
   </section>
+</div>
+
+<div style="display:none">
+  {% include 'all-svg' %}
 </div>
 
 {% schema %}
@@ -320,70 +325,6 @@
         "id": "show_currency_selector",
         "label": "Show country selector",
         "default": true
-      },
-      {
-        "type": "header",
-        "content": "Content"
-      },
-      {
-        "type": "richtext",
-        "id": "footer_content_left",
-        "label": "Left column text"
-      },
-      {
-        "type": "richtext",
-        "id": "footer_content_right",
-        "label": "Right column text"
-      },
-      {
-        "type": "header",
-        "content": "Newsletter"
-      },
-      {
-        "type": "checkbox",
-        "id": "footer_newsletter",
-        "label": "Show newsletter",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "display_first_name",
-        "label": "Show first name"
-      },
-      {
-        "type": "checkbox",
-        "id": "display_last_name",
-        "label": "Show last name"
-      },
-      {
-        "type": "richtext",
-        "id": "richtext",
-        "label": "Text",
-        "default": "<p>Sign up to get the latest on sales, new releases and more…</p>"
-      },
-      {
-        "type": "header",
-        "content": "Sub footer"
-      },
-      {
-        "type": "text",
-        "id": "copyright_text",
-        "label": "Copyright text"
-      },
-      {
-        "type": "checkbox",
-        "id": "display_payment_methods",
-        "label": "Show payment method icons",
-        "default": true
-      },
-      {
-        "type": "header",
-        "content": "Scripts"
-      },
-      {
-        "type": "html",
-        "id": "custom_html",
-        "label": "Custom HTML"
       }
     ]
   }
