@@ -26,42 +26,48 @@
   {%- assign social_icons = true -%}
 {%- endif -%}
 
+{%- style -%}
+#reinsurance {
+  background-color: {{ section.settings.icon_bg }};
+}
+{%- endstyle -%}
+
 <div class="footer">
   <div id="reinsurance">
-    <div class="container paris-bg">
+    <section class="section">
       <ul>
-          <li>
-              <div class="icon-wrapper">
-                  <svg class="icon">
-                      <use xlink:href="#ico-reinsurance-shipping"></use>
-                  </svg>
-              </div> <strong class="title">{{section.settings.icon_text}}</strong>
-              {{section.settings.icon_small}}
-          </li>
-          <li>
-              <div class="icon-wrapper">
-                  <svg class="icon">
-                      <use xlink:href="#ico-reinsurance-payment"></use>
-                  </svg>
-              </div> <strong class="title">{{section.settings.icon_text2}}</strong>
-              {{section.settings.icon_small2}}
-          </li>
-          <li>
-              <div class="icon-wrapper">
-                  <svg class="icon">
-                      <use xlink:href="#ico-reinsurance-sav"></use>
-                  </svg>
-              </div> <strong class="title">{{section.settings.icon_text3}}</strong>
-              {{section.settings.icon_small3}}
-          </li>
-          <li>
-              <div class="icon-wrapper">
-                  <svg class="icon">
-                      <use xlink:href="#ico-reinsurance-satisfaction"></use>
-                  </svg>
-              </div> <strong class="title">{{section.settings.icon_text4}}</strong>
-              {{section.settings.icon_small4}}
-          </li>
+        <li>
+            <div class="icon-wrapper">
+                <svg class="icon">
+                    <use xlink:href="#ico-reinsurance-shipping"></use>
+                </svg>
+            </div> <strong class="title">{{section.settings.icon_text}}</strong>
+            {{section.settings.icon_small}}
+        </li>
+        <li>
+            <div class="icon-wrapper">
+                <svg class="icon">
+                    <use xlink:href="#ico-reinsurance-payment"></use>
+                </svg>
+            </div> <strong class="title">{{section.settings.icon_text2}}</strong>
+            {{section.settings.icon_small2}}
+        </li>
+        <li>
+            <div class="icon-wrapper">
+                <svg class="icon">
+                    <use xlink:href="#ico-reinsurance-sav"></use>
+                </svg>
+            </div> <strong class="title">{{section.settings.icon_text3}}</strong>
+            {{section.settings.icon_small3}}
+        </li>
+        <li>
+            <div class="icon-wrapper">
+                <svg class="icon">
+                    <use xlink:href="#ico-reinsurance-satisfaction"></use>
+                </svg>
+            </div> <strong class="title">{{section.settings.icon_text4}}</strong>
+            {{section.settings.icon_small4}}
+        </li>
       </ul>
     </div>
   </div>
@@ -187,14 +193,13 @@
 
     <div id="legals">	
       <ul>	
-          <li>{{ section.settings.legals }}</li>	
-            
-          {% if section.settings.footer_linklist_4 != blank %}	
-          {% for link in linklists[section.settings.footer_linklist_4].links %}	
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>	
-          {% endfor %}	
-          {% endif %}	
-            
+        <li>{{ section.settings.legals }}</li>	
+          
+        {% if section.settings.footer_linklist_4 != blank %}	
+        {% for link in linklists[section.settings.footer_linklist_4].links %}	
+        <li><a href="{{ link.url }}">{{ link.title }}</a></li>	
+        {% endfor %}	
+        {% endif %}	
       </ul>	
     </div>
 
@@ -215,14 +220,20 @@
         "content": "Icons"
       },
       {
+        "type": "color",
+        "id": "icon_bg",
+        "label": "Container Background color",
+        "default": "#F5FBFF"
+      },
+      {
         "type": "text",
         "id": "icon_text",
-      "label":"Text 1"
+        "label":"Text 1"
       },
       {
         "type": "richtext",
         "id": "icon_small",
-      "label":"Content 1"
+        "label":"Content 1"
       },
       {
         "type": "text",
@@ -232,27 +243,27 @@
       {
         "type": "richtext",
         "id": "icon_small2",
-      "label":"Content 2"
+        "label":"Content 2"
       },
       {
         "type": "text",
         "id": "icon_text3",
-      "label":"Text 3"
+        "label":"Text 3"
       },
       {
         "type": "richtext",
         "id": "icon_small3",
-      "label":"Content 3"
+        "label":"Content 3"
       },
       {
         "type": "text",
         "id": "icon_text4",
-      "label":"Text 4"
+        "label":"Text 4"
       },
       {
         "type": "richtext",
         "id": "icon_small4",
-      "label":"Content 4"
+        "label":"Content 4"
       },
       {	
         "type": "header",	
@@ -263,36 +274,36 @@
         "id": "footer_linklist_1",	
         "label": "Menu 1"	
       },	
-        {	
+      {	
         "type": "text",	
         "id": "fo_text1",	
-      "label":"Menu Heading 1"	
+        "label":"Menu Heading 1"	
       },	
       {	
-          "type": "link_list",	
-          "id": "footer_linklist_2",	
-          "label": "Menu 2"	
-        },	
-          {	
-          "type": "text",	
-          "id": "fo_text2",	
+        "type": "link_list",	
+        "id": "footer_linklist_2",	
+        "label": "Menu 2"	
+      },	
+      {	
+        "type": "text",	
+        "id": "fo_text2",	
         "label":"Menu Heading 2"	
-        },	
+      },	
       {	
-          "type": "link_list",	
-          "id": "footer_linklist_3",	
-          "label": "Menu 3"	
-        },	
-          {	
-          "type": "text",	
-          "id": "fo_text3",	
+        "type": "link_list",	
+        "id": "footer_linklist_3",	
+        "label": "Menu 3"	
+      },	
+      {	
+        "type": "text",	
+        "id": "fo_text3",	
         "label":"Menu Heading 3"	
-        },	
+      },	
       {	
-          "type": "link_list",	
-          "id": "footer_linklist_4",	
-          "label": "Menu 4"	
-        },	
+        "type": "link_list",	
+        "id": "footer_linklist_4",	
+        "label": "Menu 4"	
+      },	
       {	
         "type": "text",	
         "id": "legals",	
