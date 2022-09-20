@@ -4,7 +4,7 @@
     "theme_name": "Parallax",
     "theme_author": "Out of the Sandbox",
     "theme_version": "5.0.2",
-    "theme_documentation_url": "https:\/\/help.outofthesandbox.com/",
+    "theme_documentation_url": "https:\/\/help.outofthesandbox.com\/",
     "theme_support_url": "https:\/\/help.outofthesandbox.com\/hc\/en-us\/requests\/new"
   },
   {
@@ -836,7 +836,7 @@
         "id": "show_payment_button",
         "label": "Show dynamic checkout button",
         "default": true,
-        "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+        "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https:\/\/help.shopify.com\/manual\/using-themes\/change-the-layout\/dynamic-checkout)"
       },
       {
         "type": "header",
@@ -856,7 +856,7 @@
         "type": "richtext",
         "id": "notify_me_description",
         "label": "Text",
-        "default": "<p>Notify me when this product is available:</p>"
+        "default": "<p>Notify me when this product is available:<\/p>"
       },
       {
         "type": "header",
@@ -1234,7 +1234,7 @@
       {
         "type": "text",
         "id": "disqus_shortname",
-        "label": "[DISQUS](http:\/\/help.disqus.com/en/articles/1717111-what-s-a-shortname\/) shortname"
+        "label": "[DISQUS](http:\/\/help.disqus.com\/en\/articles\/1717111-what-s-a-shortname\/) shortname"
       }
     ]
   },
@@ -1332,7 +1332,7 @@
         "type": "checkbox",
         "id": "enable_mobile_parallax",
         "label": "Enable parallax on mobile",
-        "info": "Parallax-enabled images will always be cropped [Learn more](https://help.outofthesandbox.com/hc/en-us/articles/115006911547)",
+        "info": "Parallax-enabled images will always be cropped [Learn more](https:\/\/help.outofthesandbox.com\/hc\/en-us\/articles\/115006911547)",
         "default": false
       },
       {

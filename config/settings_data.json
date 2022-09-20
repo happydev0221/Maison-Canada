@@ -2565,8 +2565,7 @@
           "page-details-template-11",
           "1519949417694"
         ],
-        "settings": {
-        }
+        "settings": {}
       },
       "page-details-2-template": {
         "type": "page-details-2-template",
@@ -2689,8 +2688,7 @@
           "page-details-2-template-11",
           "page-details-2-template-16"
         ],
-        "settings": {
-        }
+        "settings": {}
       },
       "page-details-3-template": {
         "type": "page-details-3-template",
@@ -2826,8 +2824,7 @@
           "1520713011588",
           "1520877765434"
         ],
-        "settings": {
-        }
+        "settings": {}
       },
       "contact-template": {
         "type": "contact-template",
@@ -3923,8 +3920,7 @@
       },
       "our_history_template": {
         "type": "our_history_template",
-        "settings": {
-        }
+        "settings": {}
       },
       "page-custom-template": {
         "type": "page-custom-template",
@@ -4186,8 +4182,7 @@
           "1570477842059",
           "1570477872940"
         ],
-        "settings": {
-        }
+        "settings": {}
       },
       "fr-currency-switcher": {
         "type": "fr-currency-switcher",

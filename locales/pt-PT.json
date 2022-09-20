@@ -5,8 +5,8 @@
       "out_of_stock": "Fora de estoque",
       "view_store_info": "Ver informações da loja",
       "check_other_stores": "Verifique a disponibilidade em outras lojas",
-      "available_for_pick_up_at_html": "Recolha disponível em <b>{{ location_name }}</b>",
-      "unavailable_for_pick_up_at_html": "Recolha atualmente indisponível em <b>{{ location_name }}</b>",
+      "available_for_pick_up_at_html": "Recolha disponível em <b>{{ location_name }}<\/b>",
+      "unavailable_for_pick_up_at_html": "Recolha atualmente indisponível em <b>{{ location_name }}<\/b>",
       "available_for_pick_up_at_time_html": "Recolha disponível, {{ pick_up_time }}",
       "unavailable_for_pick_up_at_time_html": "Coleta atualmente indisponível",
       "kilometers": "km",
@@ -20,7 +20,7 @@
     "404": {
       "title": "A Página Não Foi Encontrada",
       "subtext": "Lamentamos, mas a página que solicitou não existe.",
-      "continue_shopping_html": "Tente pesquisar ou <a href=\"{{ continue_link }}\">continuar a comprar →</a>"
+      "continue_shopping_html": "Tente pesquisar ou <a href=\"{{ continue_link }}\">continuar a comprar →<\/a>"
     },
     "password_page": {
       "opening_soon": "Abre Brevemente",
@@ -32,9 +32,9 @@
       "signup_form_heading": "Descubra quando abrimos",
       "signup_form_submit": "Submeter",
       "signup_form_success": "Iremos enviar-lhe um e-mail para a direita antes de abrirmos!",
-      "admin_link_html": "É o dono da loja? <a href=\"/admin\" class=\"text-link\">Inicie sessão aqui</a>",
+      "admin_link_html": "É o dono da loja? <a href=\"\/admin\" class=\"text-link\">Inicie sessão aqui<\/a>",
       "password_link": "Entre usando a palavra-passe",
-      "powered_by_shopify_html": "Esta loja será movida <a href=\"https://www.shopify.com\" target=\"_blank\" rel=\"nofollow\">Shopify</a>"
+      "powered_by_shopify_html": "Esta loja será movida <a href=\"https:\/\/www.shopify.com\" target=\"_blank\" rel=\"nofollow\">Shopify<\/a>"
     },
     "meta": {
       "tagged_html": "Marcado \"{{ tags }}\"",
@@ -42,7 +42,7 @@
     },
     "forms": {
       "post_error": "Nem todos os campos foram correctamente preenchidos",
-      "post_field_error_html": "O <strong>{{ field }}</strong> {{ error }}"
+      "post_field_error_html": "O <strong>{{ field }}<\/strong> {{ error }}"
     },
     "newsletter_form": {
       "title": "Novidades e Actualizações",
@@ -105,7 +105,7 @@
       "next_article_html": "Seguinte →",
       "tags": "Etiquetas",
       "author": "Autor",
-      "comment_meta_html": "<strong>{{ author }}</strong> em <strong><time datetime=\"{{ date }}\">{{ date }}</time></strong>"
+      "comment_meta_html": "<strong>{{ author }}<\/strong> em <strong><time datetime=\"{{ date }}\">{{ date }}<\/time><\/strong>"
     },
     "counts": {
       "comments_with_count": {
@@ -206,7 +206,7 @@
     },
     "item": {
       "price": {
-        "price_per_unit_html": "{{ total_quantity }} | {{ unit_price }} / {{ unit_measure }}"
+        "price_per_unit_html": "{{ total_quantity }} | {{ unit_price }} \/ {{ unit_measure }}"
       }
     }
   },
@@ -256,7 +256,7 @@
       "city": "Cidade",
       "country": "País",
       "province": "Província",
-      "zip": "Código Postal/Zip",
+      "zip": "Código Postal\/Zip",
       "phone": "Telefone",
       "set_default": "Definir como morada predefinida",
       "add": "Adicionar Morada",
@@ -377,12 +377,12 @@
       "price_per_item": "Preço por item",
       "item": "Item",
       "uploaded_file": "ficheiro transferido",
-      "continue_browsing_html": "Não existe qualquer item no seu carrinho. <a href=\"/collections/all\">Continuar a Comprar →</a>",
+      "continue_browsing_html": "Não existe qualquer item no seu carrinho. <a href=\"\/collections\/all\">Continuar a Comprar →<\/a>",
       "continue_shopping_link_html": "Continuar a Comprar →",
       "tax_and_shipping": "Tributos e frete calculados no checkout",
-      "taxes_and_shipping_policy_at_checkout_html": "Tributos e <a href=\"{{ link }}\">frete</a> calculados no checkout",
+      "taxes_and_shipping_policy_at_checkout_html": "Tributos e <a href=\"{{ link }}\">frete<\/a> calculados no checkout",
       "taxes_included_but_shipping_at_checkout": "Tributos incluídos e frete calculado no checkout",
-      "taxes_included_and_shipping_policy_html": "Tributos incluídos. <a href=\"{{ link }}\">Frete</a> calculado no checkout.",
+      "taxes_included_and_shipping_policy_html": "Tributos incluídos. <a href=\"{{ link }}\">Frete<\/a> calculado no checkout.",
       "note": "Nota",
       "agree_to_terms_warning": "Você deve concordar com os termos e condições para checkout.",
       "or": "ou",
@@ -395,7 +395,7 @@
       "estimated_shipping": "custo de envio estimado",
       "country": "País",
       "province": "Província",
-      "zip_code": "Código Postal/Zip",
+      "zip_code": "Código Postal\/Zip",
       "heading": "Calculadora de custos de envio ",
       "submit_button_label": "Calcular custos de envio",
       "submit_button_label_disabled": "A calcular...",
