@@ -2424,16 +2424,7 @@
           "legals": "© 2021 Maison Berger Paris",
           "footer_social_icons": true,
           "show_locale_selector": false,
-          "show_currency_selector": false,
-          "footer_content_left": "",
-          "footer_content_right": "",
-          "footer_newsletter": false,
-          "display_first_name": false,
-          "display_last_name": false,
-          "richtext": "<p>Sign up to get the latest on sales, new releases and more…<\/p>",
-          "copyright_text": "",
-          "display_payment_methods": false,
-          "custom_html": ""
+          "show_currency_selector": false
         }
       },
       "header": {
@@ -2457,8 +2448,8 @@
           "menu_alignment": "align_left",
           "menu_top_padding": 0,
           "search_enabled": true,
-          "show_locale_selector": true,
-          "show_currency_selector": true
+          "show_locale_selector": false,
+          "show_currency_selector": false
         }
       },
       "cart-template": {
