@@ -27,57 +27,61 @@
 {%- endif -%}
 
 {%- style -%}
+#reinsurance p {
+  color: {{ settings.sub_footer_color }};
+}
 #reinsurance {
   background-color: {{ section.settings.icon_bg }};
+  color: {{ settings.sub_footer_color }};
 }
 {%- endstyle -%}
 
 <div class="footer">
   <div id="reinsurance">
-    <section class="section">
+    <div class="section container">
       <ul>
         <li>
-            <div class="icon-wrapper">
-                <svg class="icon">
-                    <use xlink:href="#ico-reinsurance-shipping"></use>
-                </svg>
-            </div> <strong class="title">{{section.settings.icon_text}}</strong>
-            {{section.settings.icon_small}}
+          <div class="icon-wrapper">
+              <svg class="icon">
+                  <use xlink:href="#ico-reinsurance-shipping"></use>
+              </svg>
+          </div> <strong>{{section.settings.icon_text}}</strong>
+          {{section.settings.icon_small}}
         </li>
         <li>
-            <div class="icon-wrapper">
-                <svg class="icon">
-                    <use xlink:href="#ico-reinsurance-payment"></use>
-                </svg>
-            </div> <strong class="title">{{section.settings.icon_text2}}</strong>
-            {{section.settings.icon_small2}}
+          <div class="icon-wrapper">
+              <svg class="icon">
+                  <use xlink:href="#ico-reinsurance-payment"></use>
+              </svg>
+          </div> <strong>{{section.settings.icon_text2}}</strong>
+          {{section.settings.icon_small2}}
         </li>
         <li>
-            <div class="icon-wrapper">
-                <svg class="icon">
-                    <use xlink:href="#ico-reinsurance-sav"></use>
-                </svg>
-            </div> <strong class="title">{{section.settings.icon_text3}}</strong>
-            {{section.settings.icon_small3}}
+          <div class="icon-wrapper">
+              <svg class="icon">
+                  <use xlink:href="#ico-reinsurance-sav"></use>
+              </svg>
+          </div> <strong>{{section.settings.icon_text3}}</strong>
+          {{section.settings.icon_small3}}
         </li>
         <li>
-            <div class="icon-wrapper">
-                <svg class="icon">
-                    <use xlink:href="#ico-reinsurance-satisfaction"></use>
-                </svg>
-            </div> <strong class="title">{{section.settings.icon_text4}}</strong>
-            {{section.settings.icon_small4}}
+          <div class="icon-wrapper">
+              <svg class="icon">
+                  <use xlink:href="#ico-reinsurance-satisfaction"></use>
+              </svg>
+          </div> <strong>{{section.settings.icon_text4}}</strong>
+          {{section.settings.icon_small4}}
         </li>
       </ul>
-    </section>
+    </div>
   </div>
-  <section class="section">
+  <section class="main-footer section">
     <div class="container">
-      <div class="one-fifth columns medium-down--one-whole">
+      <div class="one-fifth columns medium-down--one-whole footer-image-holder">
         <img class="footer-logo" src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/logo-white.svg?17687" width="220" height="128">
       </div>
 
-      <div class="one-fifth columns medium-down--one-whole">
+      <div class="one-fifth columns medium-down--one-whole footer-image-holder">
         <img src="https://cdn.shopify.com/s/files/1/0085/4091/3761/files/epv-label.png?17687" width="179" height="83">
       </div>
 
@@ -190,20 +194,19 @@
         {% endcomment %}
 
     </div>
-
-    <div id="legals">	
-      <ul>	
-        <li>{{ section.settings.legals }}</li>	
-          
-        {% if section.settings.footer_linklist_4 != blank %}	
-        {% for link in linklists[section.settings.footer_linklist_4].links %}	
-        <li><a href="{{ link.url }}">{{ link.title }}</a></li>	
-        {% endfor %}	
-        {% endif %}	
-      </ul>	
-    </div>
-
   </section>
+
+  <div id="legals">	
+    <ul>	
+      <li>{{ section.settings.legals }}</li>	
+        
+      {% if section.settings.footer_linklist_4 != blank %}	
+      {% for link in linklists[section.settings.footer_linklist_4].links %}	
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>	
+      {% endfor %}	
+      {% endif %}	
+    </ul>	
+  </div>
 </div>
 
 <div style="display:none">

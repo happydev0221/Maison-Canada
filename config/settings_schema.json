@@ -387,6 +387,24 @@
         "default": "open_sans_n4"
       },
       {
+        "type": "checkbox",
+        "id": "is__logo__custom",
+        "label": "Use custom font",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "logo__font__custom",
+        "label": "Font",
+        "options": [
+          {
+            "value": "Euclid Flex,'Helvetica,Arial',sans-serif",
+            "label": "Euclid Flex",
+            "group": "New"
+          }
+        ]
+      },
+      {
         "type": "select",
         "id": "logo_font_style",
         "label": "Capitalization",
@@ -424,6 +442,24 @@
         "id": "headline__font",
         "label": "Font",
         "default": "open_sans_n4"
+      },
+      {
+        "type": "checkbox",
+        "id": "is__headline__custom",
+        "label": "Use custom font",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "headline__font__custom",
+        "label": "Font",
+        "options": [
+          {
+            "value": "Euclid Flex,'Helvetica,Arial',sans-serif",
+            "label": "Euclid Flex",
+            "group": "New"
+          }
+        ]
       },
       {
         "type": "select",
@@ -500,6 +536,24 @@
         "id": "nav__font",
         "label": "Font",
         "default": "open_sans_n4"
+      },
+      {
+        "type": "checkbox",
+        "id": "is__nav__custom",
+        "label": "Use custom font",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "nav__font__custom",
+        "label": "Font",
+        "options": [
+          {
+            "value": "Euclid Flex,'Helvetica,Arial',sans-serif",
+            "label": "Euclid Flex",
+            "group": "New"
+          }
+        ]
       },
       {
         "type": "select",
@@ -579,6 +633,24 @@
         "default": "open_sans_n4"
       },
       {
+        "type": "checkbox",
+        "id": "is__regular__custom",
+        "label": "Use custom font",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "regular__font__custom",
+        "label": "Font",
+        "options": [
+          {
+            "value": "Euclid Flex,'Helvetica,Arial',sans-serif",
+            "label": "Euclid Flex",
+            "group": "New"
+          }
+        ]
+      },
+      {
         "type": "select",
         "id": "regular_font_style",
         "label": "Capitalization",
@@ -627,6 +699,24 @@
         "default": "open_sans_n4"
       },
       {
+        "type": "checkbox",
+        "id": "is__slideshow_headline__custom",
+        "label": "Use custom font",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "slideshow_headline__font__custom",
+        "label": "Font",
+        "options": [
+          {
+            "value": "Euclid Flex,'Helvetica,Arial',sans-serif",
+            "label": "Euclid Flex",
+            "group": "New"
+          }
+        ]
+      },
+      {
         "type": "range",
         "id": "slideshow_headline_size",
         "label": "Base size",
@@ -650,6 +740,24 @@
         "id": "slideshow_subtitle__font",
         "label": "Font",
         "default": "open_sans_n4"
+      },
+      {
+        "type": "checkbox",
+        "id": "is__slideshow_subtitle__custom",
+        "label": "Use custom font",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "slideshow_subtitle__font__custom",
+        "label": "Font",
+        "options": [
+          {
+            "value": "Euclid Flex,'Helvetica,Arial',sans-serif",
+            "label": "Euclid Flex",
+            "group": "New"
+          }
+        ]
       },
       {
         "type": "select",
