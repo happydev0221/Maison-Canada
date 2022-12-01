@@ -804,6 +804,18 @@
         "content": "Collections and search results"
       },
       {
+        "type": "text",
+        "id": "box_heading",
+        "label": "Heading",
+        "default": "FREE STANDARD SHIPPING"
+      },
+      {
+        "type": "text",
+        "id": "box_subheading",
+        "label": "Subheading",
+        "default": "Enjoy free shipping with purchase of 75$+ CAD"
+      },
+      {
         "type": "checkbox",
         "id": "align_height",
         "label": "Align height of product media",

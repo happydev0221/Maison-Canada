@@ -376,50 +376,117 @@
   data-content-area-padding="{{ section.settings.content_top_padding }}"
   data-dropdown-position="{{ section.settings.dropdown_position }}"
 >
-  <section class="section">
-    <div class="container dropdown__wrapper">
-      <div class="one-sixth column logo {% if section.settings.logo != blank and section.settings.logo_home != blank %}secondary-logo--true{% endif %}">
-        <a href="{{ routes.root_url }}" title="{{ shop.name }}">
-          {% if section.settings.logo != blank or section.settings.logo_home != blank %}
-            {% if section.settings.logo != blank %}
-              {% render 'image-element',
-                      image: section.settings.logo,
-                      alt: shop.name,
-                      additional_classes: 'primary_logo'
-              %}
+  <section>
+    <div class="container dropdown__wrapper has-no-side-gutter">
+      <div class="section one-whole header-banner">
+        <div class="col-left">
+          <ul> 
+            <span class="ly-custom-749"></span>
+            <li>
+              <div class="lang-container">
+                <div id="lang-selector">
+                  <svg class="icon">
+                    <use xlink:href="#flag-ca"></use>
+                  </svg>
+                </div>
+                <a href="https://maison-berger.com/" class="lang-selector">
+                  <svg class="icon">
+                    <use xlink:href="#flag-us"></use>
+                  </svg>
+                </a>
+              </div>
+            </li>
+            
+            <li>
+              <a href="/pages/store-locator">
+                <svg class="icon" width="17" height="20"> 
+                  <use xlink:href="#ico-storelocator"></use> 
+                </svg>
+              </a>
+            </li>
+            {% if section.settings.search_enabled %}
+              <li class="search">
+                <a href="{{ routes.search_url }}" title="{{ 'general.search.title' | t }}" id="search-toggle">
+                  <svg class="icon"><svg id="ico-search" viewBox="0 0 20 20" width="100%" height="100%"><title><ly-as-307479>ico-search</ly-as-307479></title> <path d="M19.73,17.29l-3.9-3.89a.9.9,0,0,0-.66-.27h-.64a8.12,8.12,0,1,0-1.4,1.4v.64a.9.9,0,0,0,.27.66l3.89,3.9a.94.94,0,0,0,1.33,0l1.1-1.11A.94.94,0,0,0,19.73,17.29ZM8.13,13.13a5,5,0,1,1,5-5A5,5,0,0,1,8.13,13.13Z"></path> </svg></svg></a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="logo {% if section.settings.logo != blank and section.settings.logo_home != blank %}secondary-logo--true{% endif %}">
+          <a href="{{ routes.root_url }}" title="{{ shop.name }}">
+            {% if section.settings.logo != blank or section.settings.logo_home != blank %}
+              {% if section.settings.logo != blank %}
+                {% render 'image-element',
+                        image: section.settings.logo,
+                        alt: shop.name,
+                        additional_classes: 'primary_logo'
+                %}
 
-              {% if section.settings.logo_home != blank %}
+                {% if section.settings.logo_home != blank %}
+                  {% render 'image-element',
+                          image: section.settings.logo_home,
+                          alt: shop.name,
+                          additional_classes: 'secondary_logo'
+                  %}
+                {% endif %}
+              {% else %}
                 {% render 'image-element',
                         image: section.settings.logo_home,
                         alt: shop.name,
-                        additional_classes: 'secondary_logo'
+                        additional_classes: 'primary_logo'
                 %}
               {% endif %}
             {% else %}
-              {% render 'image-element',
-                      image: section.settings.logo_home,
-                      alt: shop.name,
-                      additional_classes: 'primary_logo'
-              %}
+              {{ shop.name }}
             {% endif %}
-          {% else %}
-            {{ shop.name }}
-          {% endif %}
-        </a>
+          </a>
+        </div>
+        <div class="col-right">
+          <ul class="header__secondary-navigation menu right" data-header-secondary-navigation>
+            {% if currency_selector == true or locale_selector == true %}
+              <li class="currencies">
+                {% render 'localization-switcher',
+                        additional_classes: 'header-menu__disclosure',
+                        id: 'header__selector-form',
+                        currency_selector: currency_selector,
+                        locale_selector: locale_selector
+                %}
+              </li>
+            {% endif %}
+  
+            {% if shop.customer_accounts_enabled %}
+              <li class="header-account">
+                <a href="{{ routes.account_url }}" title="{{ 'layout.customer.my_account' | t }} {% if customer %}({{ customer.email }}){% endif %}">
+                  {% if customer %}{{ 'layout.customer.my_account' | t }}
+                  {% else %}
+                  <svg class="icon" width="26" height="26"> <use xlink:href="#ico-my-account"></use> </svg>
+                  {% endif %}
+                </a>
+              </li>
+            {% endif %}
+  
+            <li class="cart">
+              <a href="#cart" class="cart-button">
+                <svg class="icon"> <use xlink:href="#ico-cart"></use> </svg>
+                <span>{{ cart.item_count }}</span></a>
+              <a href="{{ routes.cart_url }}" class="icon-cart cart-button no-js-only"><span>{{ cart.item_count }}</span></a>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div
         class="
-          five-sixths
+          one-whole
           columns
           nav
           mobile_hidden
+          is-justify-center
         "
         role="navigation"
       >
         <ul
           class="
-            header__navigation
             menu
             {{ section.settings.menu_alignment }}
           "
@@ -451,39 +518,271 @@
                   </summary>
                 </details>
                 <div class="dropdown animated fadeIn {% if count > column_threshold %}dropdown-wide {% if forloop.last %}dropdown-left{% endif %}{% endif %}">
-                  <div class="dropdown-links">
-                    <ul>
-                      {%- assign count = 0 -%}
-                      {%- assign split = false -%}
 
-                      {% for sub_link in link.links %}
-                        {%- assign count = count | plus: 1 -%}
+                  {% if link.handle == "shop" %}
+                    <div class="mega-content">
+                      <div class="col-left col">
+                        <div class="block-featured-content" style="border-color: {{section.settings.banner_color}}">
+                          <div class="image"> <a href="{{section.settings.banner_url}}"> <img src="{{section.settings.banner_img |img_url:'master'}}" width="225" height="225" title="" alt=""> </a></div>
+                          <div class="contents" style="background-color: {{section.settings.banner_color}}"> <a style="text-decoration:none;color:white;" href="{{section.settings.banner_url}}"> <span>{{section.settings.banner_desc}}</span> <strong> {{section.settings.banner_value}}</strong> </a></div>
+                        </div>
+                        {%if section.settings.banner_btntext != blank %}
+                          <div class="menu-buttons"> <a href="{{section.settings.banner_url}}" class="btn">{{section.settings.banner_btntext}}</a></div>
+                        {%endif%}
+                      </div>
+                      <div class="main-col col-layout-2">
+                        {% assign link_count = 0 %}
+                        {% for link in linklists[link.handle].links %}
+                          {% assign link_count = link_count | plus: 1 %}
+                          <div class="block-links">
+                            <div class="heading heading-icone">
+                              {%if forloop.index == 1%}
+                                <span>
+                                  <svg class="icon" width="16" height="22">
+                                    <use xlink:href="#ico-lampe"></use>
+                                  </svg>
+                                </span>
+                              {%endif%}
+                              {%if forloop.index == 2%}
+                                <span>
+                                  <svg class="icon" width="30" height="48">
+                                    <use xlink:href="#ico-difusser"></use>
+                                  </svg>
+                                </span>
+                              {%endif%}
+                              {%if forloop.index == 3%}
+                                <span>
+                                  <svg class="icon" width="16" height="22">
+                                    <use xlink:href="#ico-bouquet"></use>
+                                  </svg>
+                                </span>
+                              {%endif%}
+                              {%if forloop.index == 4%}
+                                <span>
+                                  <svg class="icon" width="16" height="22">
+                                    <use xlink:href="#ico-voiture"></use>
+                                </svg>
+                                </span>
+                              {%endif%}
+                              {%if forloop.index == 5%}
+                                <span>
+                                  <svg class="icon" width="16" height="22">
+                                    <use xlink:href="#ico-bougie"></use>
+                                  </svg>
+                                </span>
+                              {%endif%}
+                            </div>
+                            <ul class="links">
+                              <li class="main-link">
+                                <a href="{{ link.url }}">
+                                <span>{{ link.title }}</span> 
+                                <svg class="icon">
+                                  <use xlink:href="#ico-link-arrow"></use>
+                                </svg>
+                              </a>
+                              </li>
+                              {% if linklists[link.handle] != empty %}
+                                {% for link in linklists[link.handle].links %}  
+                                  <li class="">
+                                    <a href="{{ link.url }}">
+                                      <span>{{ link.title }}</span> 
+                                      <svg class="icon">
+                                        <use xlink:href="#ico-link-arrow"></use>
+                                      </svg>
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              {% endif %}
+                            </ul>
+                          </div>
+                        {% endfor %}
+            
+            
+                        {% assign mod = link_count | modulo: 2 %}
+                        {% unless mod == 0 %}
+                        <div class="block-links"></div>
+                        {% endunless %}
+                      </div>
+                      <div class="col-right col">
+                        <div class="block-help-small">
+                          <div class="contents">
+                            <span class="title">{{section.settings.banner_desc2}}</span>
+                            {{section.settings.banner_value2}}
+                          </div>
+                          {%if section.settings.banner_btntext2 != blank %}
+                            <div class="buttons"> <a href="{{section.settings.banner_url2}}" class="btn btn-white">{{section.settings.banner_btntext2}}</a></div>
+                          {%endif%}
+                        </div>
+                      </div>
+                    </div>
 
-                        <li><a href="{{ sub_link.url }}">{{ sub_link.title }}</a></li>
+                  {% elsif link.handle == 'fragrances' %}
+                    <div class="mega-content">
+                      <div class="col-left col">
+                        <div class="block-featured-content" style="border-color: {{section.settings.banner2_color}}">
+                          <div class="image"> <a href="{{section.settings.banner2_url}}"> <img src="{{section.settings.banner2_img |img_url:'master'}}" width="225" height="225" title="" alt=""> </a></div>
+                          <div class="contents" style="background-color: {{section.settings.banner2_color}}">
+                            <a style="text-decoration:none;color:white;" href="{{section.settings.banner2_url}}">
+                              <span>{{section.settings.banner2_desc}}</span> 
+                              <strong> {{section.settings.banner2_value}}</strong> 
+                            </a>
+                          </div>
+                        </div>
+                        <div class="menu-buttons"></div>
+                      </div>
+                      <div class="main-col col-layout-3">
+                        {% for link in linklists[link.handle].links %}
+                          <div class="block-links">
+                            <div class="heading">
+                              <span>
+                                {%if forloop.index == 1%}       
+                                <img src="{{ section.settings.menu_img1 | img_url: '225x' }}" alt="{{ shop.name }}" />
+                                {%endif%}
+                                {%if forloop.index == 2%}          
+                                <img src="{{ section.settings.menu_img2 | img_url: '225x' }}" alt="{{ shop.name }}" />
+                                {%endif%}
+                                {%if forloop.index == 3%}       
+                                <img src="{{ section.settings.menu_img3 | img_url: '225x' }}" alt="{{ shop.name }}" />
+                                {%endif%}
+                              </span>
+                            </div>
+                            
+                            <ul class="links">
+                              <li class="main-link">
+                                <a href="{%if link.title =="FRAGRANCE TYPE"%}javascript:void(0);{%else%}{{ link.url }}{%endif%}" {%if link.title =="FRAGRANCE TYPE"%}style="cursor:default;color:#081f2c;"{%endif%}>
+                                  <span>{{ link.title }}</span> 
+                                  {%unless link.title =="FRAGRANCE TYPE"%}
+                                    <svg class="icon">
+                                      <use xlink:href="#ico-link-arrow"></use>
+                                    </svg>
+                                  {%endunless%}
+                                </a>
+                              </li>
+                              {% if linklists[link.handle] != empty %}
+                                {% for link in linklists[link.handle].links %}  
+                                  <li class="">
+                                    <a href="{{ link.url }}">
+                                      <span>{{ link.title }}</span> 
+                                      <svg class="icon">
+                                        <use xlink:href="#ico-link-arrow"></use>
+                                      </svg>
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              {% endif %}
+                            </ul>
+                          </div>
+                        {% endfor %}
+                      </div>
+                      <div class="col-right col">
+                        <div class="block-help-small">
+                          <div class="contents">
+                            <span class="title">{{section.settings.banner_desc2}}</span>
+                            {{section.settings.banner_value2}}
+                          </div>
+                          <div class="buttons"> <a href="{{section.settings.banner_url2}}" class="btn btn-white">{{section.settings.banner_btntext2}}</a></div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                  {% elsif link.handle == 'collections'%}
+                    <div class="mega-content">
+                      <div class="main-col col-layout-2 col-collections">                        
+                        <div>
+                          <ul>
+                          <li><a href="/collections"><ly-as-307483>Explore All</ly-as-307483></a></li>
+                          </ul>
+                        </div>
+                        <div class="bl">
+                          <ul class="collections-mega">
+                            {% for link in linklists[link.handle].links %}
+                              {% if link.url contains 'collections'%}
+                                {% assign colhandle = link.url | replace: "/collections/", "" | replace: request.locale.root_url, '' %}
+                                {% if link.url == 'aroma'%}
+                                  {% assign colhandle = 'aroma1' %}
+                                {%endif%}
+                            
+                                {% assign collection = collections[colhandle] %}
+                                {% if collection.image %}
+                                  <li>
+                                    <a href="{{link.url}}" class="how-right">
+                                      <div class="img-col">
+                                        <img src="{{ collection.image.src | collection_img_url: 'small' }}" alt="{{ collection.image.alt }}" >
+                                        <span class="find_me" style="display: none;">{{ collection.image.src }} || {{ collection.image }} || {{ colhandle }}</span>
+                                      </div>
+                                      <span class="title">{{link.title}}</span>
+                                    </a>
+                                  </li>
+                                {% endif %}
+                              {%endif%}
+                            {%endfor%}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
 
-                        {% for sub_sub_link in sub_link.links %}
+                  {% elsif link.handle == 'gifts' %}
+                    <div class="mega-content">
+                      <div class="main-col col-layout-2">  
+                        <div class="block-links">
+                          <ul>
+                            <li><a href="/collections/all"><ly-as-307483>Explore All</ly-as-307483></a></li>
+                            {% for link in linklists[link.handle].links limit:5 %}
+                              <li><a href="{{link.url}}">{{link.title}}</a></li>
+                            {%endfor%}
+                          </ul>
+                        </div>
+                        <div class="block-links">
+                          <ul>
+                            {% for link in linklists[link.handle].links limit:5 offset:5 %}
+                              <li><a href="{{link.url}}">{{link.title}}</a></li>
+                            {%endfor%}
+                          </ul>
+                        </div>
+                  
+                        <div class="block-links">
+                          <a href="/">
+                            <img src="{{section.settings.banner3_img |img_url:'400x'}}" width="400">
+                          </a>
+                        </div>
+                      </div>          
+                    </div>
+
+                  {% else %}
+                    <div class="dropdown-links">
+                      <ul>
+                        {%- assign count = 0 -%}
+                        {%- assign split = false -%}
+
+                        {% for sub_link in link.links %}
                           {%- assign count = count | plus: 1 -%}
 
-                          <li>
-                            <a class="sub-link" href="{{ sub_sub_link.url }}">{{ sub_sub_link.title }}</a>
-                          </li>
-                        {% endfor %}
+                          <li><a href="{{ sub_link.url }}">{{ sub_link.title }}</a></li>
 
-                        {% if count >= column_threshold and split == false %}
-                          {%- assign split = true -%}
-                          </ul>
-                          <ul>
-                        {% endif %}
-                      {% endfor %}
-                    </ul>
-                  </div>
+                          {% for sub_sub_link in sub_link.links %}
+                            {%- assign count = count | plus: 1 -%}
+
+                            <li>
+                              <a class="sub-link" href="{{ sub_sub_link.url }}">{{ sub_sub_link.title }}</a>
+                            </li>
+                          {% endfor %}
+
+                          {% if count >= column_threshold and split == false %}
+                            {%- assign split = true -%}
+                            </ul>
+                            <ul>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </div>  
+                  {% endif %}
                 </div>
               </li>
             {% endif %}
           {% endfor %}
         </ul>
 
-        <ul class="header__secondary-navigation menu right" data-header-secondary-navigation>
+        {% comment %} <ul class="header__secondary-navigation menu right" data-header-secondary-navigation>
           {% if currency_selector == true or locale_selector == true %}
             <li class="currencies">
               {% render 'localization-switcher',
@@ -501,17 +800,11 @@
             </li>
           {% endif %}
 
-          {% if section.settings.search_enabled %}
-            <li class="search">
-              <a href="{{ routes.search_url }}" title="{{ 'general.search.title' | t }}" id="search-toggle"><span class="icon-search"></span></a>
-            </li>
-          {% endif %}
-
           <li class="cart">
             <a href="#cart" class="icon-cart cart-button"><span>{{ cart.item_count }}</span></a>
             <a href="{{ routes.cart_url }}" class="icon-cart cart-button no-js-only"><span>{{ cart.item_count }}</span></a>
           </li>
-        </ul>
+        </ul> {% endcomment %}
       </div>
     </div>
   </section>
@@ -669,6 +962,121 @@
         "id": "main_linklist",
         "label": "Main menu",
         "default": "main-menu"
+      },
+      {
+        "type": "header",
+        "content": "Megamenu Shop"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_img",
+        "label": "Image"
+      },
+      {
+        "type": "color",
+        "id": "banner_color",
+        "label": "Color Style 1",
+        "default": "#eb968f"
+      },
+      {
+        "type": "text",
+        "id": "banner_desc",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "banner_value",
+        "label": "Text"
+      },
+      {
+        "type": "text",
+        "id": "banner_btntext",
+        "label": "Button text"
+      },
+      {
+        "type": "url",
+        "id": "banner_url",
+        "label": "Link To"
+      },
+      {
+        "type": "color",
+        "id": "banner_color2",
+        "label": "Color Style 2",
+        "default": "#E1B77D"
+      },
+      {
+        "type": "text",
+        "id": "banner_desc2",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "banner_value2",
+        "label": "Text"
+      },
+      {
+        "type": "text",
+        "id": "banner_btntext2",
+        "label": "Text"
+      },
+      {
+        "type": "url",
+        "id": "banner_url2",
+        "label": "Link To"
+      },
+      {
+        "type": "header",
+        "content": "Megamenu Fragances"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner2_img",
+        "label": "Image"
+      },
+      {
+        "type": "color",
+        "id": "banner2_color",
+        "label": "Color Style 1",
+        "default": "#eb968f"
+      },
+      {
+        "type": "text",
+        "id": "banner2_desc",
+        "label": "Description"
+      },
+      {
+        "type": "text",
+        "id": "banner2_value",
+        "label": "Text"
+      },
+      {
+        "type": "url",
+        "id": "banner2_url",
+        "label": "Link To"
+      },
+      {
+        "type": "image_picker",
+        "id": "menu_img1",
+        "label": "Image 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "menu_img2",
+        "label": "Image 2"
+      },
+        {
+        "type": "image_picker",
+        "id": "menu_img3",
+        "label": "Image 3"
+      },
+      {
+        "type": "header",
+        "content": "Megamenu Gifts"
+      },
+      {
+        "type": "image_picker",
+        "id": "banner3_img",
+        "label": "Image"
       },
       {
         "type": "range",
